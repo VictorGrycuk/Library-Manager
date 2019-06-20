@@ -8,11 +8,8 @@ namespace LibraryManagementCore.Models
 {
     public class Author
     {
+        public Guid  ID { get; set; }
         public string Name { get; set; }
-
-        public Author(string name)
-        {
-            Name = name;
-        }
+        public DateTime DoB { get; set; }
     }
 }

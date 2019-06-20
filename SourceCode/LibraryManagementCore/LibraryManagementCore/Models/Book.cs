@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LiteDB;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,7 @@ namespace LibraryManagementCore.Models
 {
     public class Book : IBook
     {
+        public string ID { get; set; }
         public string Title { get; set; }
         public List<Author> Authors { get; set; }
         public string Publisher { get; set; }

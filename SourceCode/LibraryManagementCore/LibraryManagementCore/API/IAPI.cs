@@ -10,5 +10,6 @@ namespace LibraryManagementCore.API
     public interface IAPI
     {
         IBook GetBookDetailsFromISBN(string ISBN);
+        //Author GetBookDetailsFromISBN(string ISBN);
     }
 }

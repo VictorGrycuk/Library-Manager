@@ -1,10 +1,12 @@
-﻿using System;
+﻿using LiteDB;
+using System;
 using System.Collections.Generic;
 
 namespace LibraryManagementCore.Models
 {
     public interface IBook
     {
+        string ID { get; set; }
         float AverageRating { get; set; }
         List<Author> Authors { get; set; }
         string Description { get; set; }
