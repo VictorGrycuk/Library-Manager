@@ -12,12 +12,12 @@ namespace Tests
     public class TestApi
     {
         [TestMethod]
-        public void TestGoogleApi()
+        public void GetBookFromGoogleApi()
         {
             Factory factory = new Factory(new GoogleApi());
-            var book = factory.GetBookFromAPI("0735619670");
+            var book = factory.GetBookFromAPI("9780132350884");
 
-            Assert.AreEqual(book.Title, "Code Complete");
+            Assert.AreEqual(book.Title, "Clean Code");
         }
     }
 }
