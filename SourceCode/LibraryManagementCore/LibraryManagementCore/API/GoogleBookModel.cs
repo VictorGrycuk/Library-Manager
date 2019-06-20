@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using LibraryManagementCore.Models;
+using LiteDB;
 using Newtonsoft.Json;
 
 namespace LibraryManagementCore.API
@@ -20,19 +21,28 @@ namespace LibraryManagementCore.API
     [JsonObject(Title = "VolumeInfo")]
     public class GoogleBookModel : IBook
     {
-        public string Title { get; set; }
+        [BsonIgnore]
         public string[] authors { get; set; }
-        public string Publisher { get; set; }
+
+        [BsonIgnore]
         public string publishedDate { get; set; }
-        public string Description { get; set; }
+
+        [BsonIgnore]
         public Industryidentifier[] industryIdentifiers { get; set; }
+
+        [BsonIgnore]
+        public Imagelinks imageLinks { get; set; }
+
+        public string Title { get; set; }
+        public string Publisher { get; set; }
+        public string Description { get; set; }
         public int PageCount { get; set; }
         public string[] categories { get; set; }
         public float AverageRating { get; set; }
         public string MaturityRating { get; set; }
-        public Imagelinks imageLinks { get; set; }
         public string Language { get; set; }
 
+        public string ID { get; set; }
         public DateTime PublishedDate { get; set; }
         public List<Author> Authors { get; set; }
     }

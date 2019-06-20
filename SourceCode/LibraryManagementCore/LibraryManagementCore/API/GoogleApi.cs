@@ -18,15 +18,23 @@ namespace LibraryManagementCore.API
         {
             var json = webClient.DownloadString(url + ISBN);
             var result = JsonConvert.DeserializeObject<GoogleRootObject>(json).items[0].GoogleBookModel;
-            result.PublishedDate = new DateTime(int.Parse(result.publishedDate), 1, 1);
 
-            result.Authors = new List<Author>();
-            foreach (var author in result.authors)
-            {
-                result.Authors.Add(new Models.Author(author));
-            }
+            return Adapt(result);
+        }
 
-            return result;
+        private IBook Adapt(GoogleBookModel googleBook)
+        {
+            googleBook.ID = googleBook.industryIdentifiers[0].identifier;
+            googleBook.PublishedDate = new DateTime(int.Parse(googleBook.publishedDate), 1, 1);
+
+            //googleBook.Authors = new List<Author>();
+
+            //foreach (var author in googleBook.authors)
+            //{
+            //    googleBook.Authors.Add(new Author(author));
+            //}
+
+            return googleBook;
         }
     }
 }
