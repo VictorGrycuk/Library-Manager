@@ -11,39 +11,40 @@ namespace LibraryManagementCore.DAL
     public class LocalLiteDB : IDAL
     {
         private readonly LiteDatabase db;
-        private readonly LiteCollection<IBook> bookCollection;
         private readonly LiteCollection<Author> authorCollection;
+        private readonly BookManagement bookManagement;
 
         public LocalLiteDB(string filePath)
         {
             db = new LiteDatabase(filePath);
-            bookCollection = db.GetCollection<IBook>("Book");
+
+            bookManagement = new BookManagement(db);
             authorCollection = db.GetCollection<Author>("Author");
         }
 
         public void AddBook(IBook book)
         {
-            bookCollection.Insert(book);
+            bookManagement.Add(book);
         }
 
         public void DeleteBook(string isbn)
         {
-            bookCollection.Delete(isbn);
+            bookManagement.Delete(isbn);
         }
 
         public IBook FindBookByISBN(string isbn)
         {
-            return bookCollection.Find(x => x.ID == isbn).FirstOrDefault();
+            return bookManagement.FindByISBN(isbn);
         }
 
         public IBook FindBookByTitle(string title)
         {
-            return bookCollection.Find(x => x.Title == title).FirstOrDefault();
+            return FindBookByTitle(title);
         }
 
         public void UpdateBook(IBook book)
         {
-            bookCollection.Update(book);
+            bookManagement.Update(book);
         }
 
         public void AddAuthor(Author author)

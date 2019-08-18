@@ -1,14 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using LibraryManagementCore.Modules.UserManagement;
+using System;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using LibraryManagementCore.API;
-using LibraryManagementCore.DAL;
 
 namespace LibraryManagementCore
 {
     public class Core
     {
+        private User curentUser;
+        public UserManagement userManagement;
+
+        public void SetUserManagementModule(IDataBase dataBase)
+        {
+            userManagement = new UserManagement(dataBase);
+        }
+
+        public void LogIn(string userName, string password)
+        {
+            var tempUser = userManagement.FindByUserID(userName).First();
+
+            curentUser = tempUser.ValidatePassword(password)
+                        ? tempUser
+                        : throw new Exception("Username or Password invalid");
+        }
     }
 }
