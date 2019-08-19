@@ -16,8 +16,11 @@ namespace LibraryManagementCore
 
         public void LogIn(string userName, string password)
         {
-            var tempUser = userManagement.FindByUserID(userName).First();
+            // Find the user. If it is not found, throw an exception.
+            var tempUser = userManagement.FindByUserID(userName).FirstOrDefault()
+                        ?? throw new Exception("Username or Password invalid");
 
+            // Check if the given password checks against the stored password.
             curentUser = tempUser.ValidatePassword(password)
                         ? tempUser
                         : throw new Exception("Username or Password invalid");
