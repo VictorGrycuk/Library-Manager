@@ -1,4 +1,4 @@
-﻿using LibraryManagementCore.Modules.UserManagement;
+using LibraryManagementCore.Modules.UserManagement;
 using System;
 using System.Linq;
 
@@ -21,6 +21,10 @@ namespace LibraryManagementCore
             curentUser = tempUser.ValidatePassword(password)
                         ? tempUser
                         : throw new Exception("Username or Password invalid");
+
+            // Update the last accessed date time
+            curentUser.LastAccessed = DateTime.Now;
+            userManagement.Update(curentUser);
         }
     }
 }

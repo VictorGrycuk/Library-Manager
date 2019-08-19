@@ -15,6 +15,8 @@ namespace LibraryManagementCore.Modules.UserManagement
         public string UserID { get; set; }
         public string Name { get; set; }
         public string LastName { get; set; }
+        public DateTime DateCreated { get; set; }
+        public DateTime LastAccessed { get; set; }
 
         public void SetPassword(string password)
         {

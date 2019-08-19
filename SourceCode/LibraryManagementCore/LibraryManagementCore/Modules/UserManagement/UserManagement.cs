@@ -27,7 +27,9 @@ namespace LibraryManagementCore.Modules.UserManagement
             {
                 Name = name,
                 LastName = lastName,
-                UserID = userId
+                UserID = userId,
+                DateCreated = DateTime.Now,
+                LastAccessed = DateTime.Now,
             };
 
             user.SetPassword(password);
