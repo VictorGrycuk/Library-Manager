@@ -1,4 +1,4 @@
-using LibraryManagementCore.Modules.UserManagement;
+﻿using LibraryManagementCore.Modules.UserManagement;
 using System;
 using System.Linq;
 
@@ -7,11 +7,11 @@ namespace LibraryManagementCore
     public class Core
     {
         private User curentUser;
-        public UserManagement userManagement;
+        private UserManagement userManagement;
 
-        public void SetUserManagementModule(IDataBase dataBase)
+        public Core(string connectionString)
         {
-            userManagement = new UserManagement(dataBase);
+            userManagement = new UserManagement(new UserDB(connectionString));
         }
 
         public void LogIn(string userName, string password)
