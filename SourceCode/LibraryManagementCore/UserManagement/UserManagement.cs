@@ -22,17 +22,24 @@ namespace Base.Architecture.UserManagement
             db = new UserDB(connection);
 
             if (db.Find("Username", "admin").Count() == 0)
+            {
                 db.Add(GetNewAdmin());
+            }
         }
 
         public User LogIn(string username, string password)
         {
             if (string.IsNullOrWhiteSpace(username))
+            {
                 throw new ArgumentNullException("Username or Password cannot be null.");
+            }
 
             var user = db.Find("Username", username).FirstOrDefault() ?? throw new Exception("User not found.");
             isLogged = user.ValidatePassword(password);
-            if (isLogged) UpdateLastAccess(user);
+            if (isLogged)
+            {
+                UpdateLastAccess(user);
+            }
 
             return isLogged ? user.ToUser() : null;
         }
@@ -41,7 +48,9 @@ namespace Base.Architecture.UserManagement
         {
             CheckLoginStatus();
             if (db.Find("Username", user.Username).Count() > 0)
+            {
                 throw new Exception($"Username '{ user.Username }' already exists.");
+            }
 
             var newUser = new DetailedUser
             {
@@ -110,7 +119,10 @@ namespace Base.Architecture.UserManagement
 
         private void CheckLoginStatus()
         {
-            if (!isLogged) throw new Exception("Please log in.");
+            if (!isLogged)
+            {
+                throw new Exception("Please log in.");
+            }
         }
 
         public void DropTable(string tableName)
