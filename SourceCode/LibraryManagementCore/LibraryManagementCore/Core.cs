@@ -1,33 +1,27 @@
-﻿using LibraryManagementCore.Modules.UserManagement;
+﻿using Base.Architecture.UserManagement;
 using System;
-using System.Linq;
+using Base.Architecture.UserManagement.Models;
 
 namespace LibraryManagementCore
 {
     public class Core
     {
         private User curentUser;
-        private UserManagement userManagement;
+        private UserManagementCore userManagement;
 
         public Core(string connectionString)
         {
-            userManagement = new UserManagement(new UserDB(connectionString));
+            userManagement = new UserManagementCore(connectionString);
         }
 
-        public void LogIn(string userName, string password)
+        public void LogIn(string username, string password)
         {
-            // Find the user. If it is not found, throw an exception.
-            var tempUser = userManagement.FindByUserID(userName).FirstOrDefault()
-                        ?? throw new Exception("Username or Password invalid");
-
             // Check if the given password checks against the stored password.
-            curentUser = tempUser.ValidatePassword(password)
-                        ? tempUser
-                        : throw new Exception("Username or Password invalid");
+            curentUser = userManagement.LogIn(username, password) ?? throw new Exception("Username or Password invalid");
 
             // Update the last accessed date time
             curentUser.LastAccessed = DateTime.Now;
-            userManagement.Update(curentUser);
+            userManagement.UpdateUser(curentUser);
         }
     }
 }
