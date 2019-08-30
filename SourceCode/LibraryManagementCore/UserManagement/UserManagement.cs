@@ -34,7 +34,7 @@ namespace Base.Architecture.UserManagement
                 throw new ArgumentNullException("Username or Password cannot be null.");
             }
 
-            var user = db.Find("Username", username).FirstOrDefault() ?? throw new Exception("User not found.");
+            var user = db.Find("Username", username).FirstOrDefault() ?? throw new ArgumentException("User not found.");
             isLogged = user.ValidatePassword(password);
             if (isLogged)
             {
@@ -49,7 +49,7 @@ namespace Base.Architecture.UserManagement
             CheckLoginStatus();
             if (db.Find("Username", user.Username).Count() > 0)
             {
-                throw new Exception($"Username '{ user.Username }' already exists.");
+                throw new ArgumentException($"Username '{ user.Username }' already exists.");
             }
 
             var newUser = new DetailedUser
@@ -121,7 +121,7 @@ namespace Base.Architecture.UserManagement
         {
             if (!isLogged)
             {
-                throw new Exception("Please log in.");
+                throw new UnauthorizedAccessException("Please log in.");
             }
         }
 

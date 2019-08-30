@@ -44,7 +44,7 @@ namespace Base.Architecture.UserManagement.Security
 
             if (errorMessages.Count > 0)
             {
-                throw new Exception(string.Join(Environment.NewLine, errorMessages));
+                throw new ArgumentException(string.Join(Environment.NewLine, errorMessages));
             }
         }
     }
