@@ -215,15 +215,11 @@
     <Compile Include="DAL\IDAL.cs" />
     <Compile Include="DAL\LiteDB.cs" />
     <Compile Include="IDataBase.cs" />
-    <Compile Include="Modules\UserManagement\EncryptionHelper.cs" />
-    <Compile Include="Modules\UserManagement\UserDB.cs" />
-    <Compile Include="Modules\UserManagement\UserManagement.cs" />
     <Compile Include="Models\Author.cs" />
     <Compile Include="Models\Book.cs" />
     <Compile Include="Factory.cs" />
     <Compile Include="API\GoogleBookModel.cs" />
     <Compile Include="Models\IBook.cs" />
-    <Compile Include="Modules\UserManagement\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -233,6 +229,12 @@
   <ItemGroup>
     <Analyzer Include="..\packages\Microsoft.CodeAnalysis.Analyzers.2.9.4\analyzers\dotnet\cs\Microsoft.CodeAnalysis.Analyzers.dll" />
     <Analyzer Include="..\packages\Microsoft.CodeAnalysis.Analyzers.2.9.4\analyzers\dotnet\cs\Microsoft.CodeAnalysis.CSharp.Analyzers.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\UserManagement\Base.Architecture.UserManagement.csproj">
+      <Project>{cc19ea3f-4c24-447e-bc87-6d66557a8b5f}</Project>
+      <Name>Base.Architecture.UserManagement</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

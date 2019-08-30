@@ -250,7 +250,6 @@
     <Compile Include="TestDAL.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="TestUserManagement.cs" />
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>

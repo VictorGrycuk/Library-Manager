@@ -1,23 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace LibraryManagementCore.Modules.UserManagement
+namespace Base.Architecture.UserManagement.Security
 {
     internal static class EncryptionHelper
     {
-        public static byte[] GenerateSalt()
+        private static byte[] GenerateSalt(string input)
         {
-            const int saltLength = 32;
-
-            using (var randomNumberGenerator = new RNGCryptoServiceProvider())
+            using (var sha256 = SHA256.Create())
             {
-                var randomNumber = new byte[saltLength];
-                randomNumberGenerator.GetBytes(randomNumber);
-
-                return randomNumber;
+                return sha256.ComputeHash(Encoding.ASCII.GetBytes(input));
             }
         }
 
@@ -31,14 +24,19 @@ namespace LibraryManagementCore.Modules.UserManagement
             return ret;
         }
 
-        public static byte[] HashPasswordWithSalt(byte[] toBeHashed, byte[] salt)
+        public static byte[] HashPassword(string password)
         {
             using (var sha256 = SHA256.Create())
             {
-                var combinedHash = Combine(toBeHashed, salt);
+                var combinedHash = Combine(Encoding.ASCII.GetBytes(password), GenerateSalt(password));
 
                 return sha256.ComputeHash(combinedHash);
             }
+        }
+
+        public static bool ComparePasswords(string inputPassword, string storedPassword)
+        {
+            return Convert.ToBase64String(HashPassword(inputPassword)) == storedPassword;
         }
     }
 }
