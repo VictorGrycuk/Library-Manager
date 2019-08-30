@@ -13,6 +13,7 @@ namespace Base.Architecture.UserManagement.Tests
         public UserManagementTests()
         {
             db_dir = Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName, "test.db");
+            File.Delete(db_dir);
 
             dummyUser = new User
             {
@@ -25,27 +26,24 @@ namespace Base.Architecture.UserManagement.Tests
         [Fact]
         public void UserManagement_Should_Not_Allow_User_Creation_Without_Logging_In()
         {
-            File.Delete(db_dir);
             var userManagement = new UserManagementCore(db_dir);
-            Assert.Throws<Exception>(() => userManagement.StoreUser(dummyUser, "password"));
+            Assert.Throws<UnauthorizedAccessException>(() => userManagement.StoreUser(dummyUser, "password"));
             userManagement.CloseConnection();
         }
 
         [Fact]
         public void UserManagement_Should_Not_Allow_Find_User_Without_Logging_In()
         {
-            File.Delete(db_dir);
             var userManagement = new UserManagementCore(db_dir);
-            Assert.Throws<Exception>(() => userManagement.FindUser(UserManagementCore.Field.Username, "admin"));
+            Assert.Throws<UnauthorizedAccessException>(() => userManagement.FindUser(UserManagementCore.Field.Username, "admin"));
             userManagement.CloseConnection();
         }
 
         [Fact]
         public void UserManagement_Should_Not_Allow_Update_User_Without_Logging_In()
         {
-            File.Delete(db_dir);
             var userManagement = new UserManagementCore(db_dir);
-            Assert.Throws<Exception>(() => userManagement.UpdateUser(dummyUser));
+            Assert.Throws<UnauthorizedAccessException>(() => userManagement.UpdateUser(dummyUser));
             userManagement.CloseConnection();
         }
 
@@ -54,7 +52,7 @@ namespace Base.Architecture.UserManagement.Tests
         {
             File.Delete(db_dir);
             var userManagement = new UserManagementCore(db_dir);
-            Assert.Throws<Exception>(() => userManagement.UpdatePassword(dummyUser, "new password"));
+            Assert.Throws<UnauthorizedAccessException>(() => userManagement.UpdatePassword(dummyUser, "new password"));
             userManagement.CloseConnection();
         }
 
@@ -105,11 +103,10 @@ namespace Base.Architecture.UserManagement.Tests
         [Fact]
         public void UserManagement_Should_Not_Allow_Empty_Password()
         {
-            File.Delete(db_dir);
             var userManagement = new UserManagementCore(db_dir);
             userManagement.LogIn("admin", "admin");
 
-            var exception = Assert.Throws<Exception>(() => userManagement.UpdatePassword(dummyUser, " "));
+            var exception = Assert.Throws<FormatException>(() => userManagement.UpdatePassword(dummyUser, " "));
             Assert.Equal("Password should not be empty", exception.Message);
             userManagement.CloseConnection();
         }
@@ -117,11 +114,10 @@ namespace Base.Architecture.UserManagement.Tests
         [Fact]
         public void UserManagement_Should_Not_Allow_Passwords_Without_A_Lower_Character()
         {
-            File.Delete(db_dir);
             var userManagement = new UserManagementCore(db_dir);
             userManagement.LogIn("admin", "admin");
 
-            var exception = Assert.Throws<Exception>(() => userManagement.UpdatePassword(dummyUser, "P@SSW0RD"));
+            var exception = Assert.Throws<FormatException>(() => userManagement.UpdatePassword(dummyUser, "P@SSW0RD"));
             Assert.Equal("Password should contain At least one lower case letter", exception.Message);
             userManagement.CloseConnection();
         }
@@ -129,11 +125,10 @@ namespace Base.Architecture.UserManagement.Tests
         [Fact]
         public void UserManagement_Should_Not_Allow_Passwords_Without_A_Uppercase_Character()
         {
-            File.Delete(db_dir);
             var userManagement = new UserManagementCore(db_dir);
             userManagement.LogIn("admin", "admin");
 
-            var exception = Assert.Throws<Exception>(() => userManagement.UpdatePassword(dummyUser, "p@ssw0rd"));
+            var exception = Assert.Throws<FormatException>(() => userManagement.UpdatePassword(dummyUser, "p@ssw0rd"));
             Assert.Equal("Password should contain At least one upper case letter", exception.Message);
             userManagement.CloseConnection();
         }
@@ -145,7 +140,7 @@ namespace Base.Architecture.UserManagement.Tests
             var userManagement = new UserManagementCore(db_dir);
             userManagement.LogIn("admin", "admin");
 
-            var exception = Assert.Throws<Exception>(() => userManagement.UpdatePassword(dummyUser, "P@ssw0r"));
+            var exception = Assert.Throws<FormatException>(() => userManagement.UpdatePassword(dummyUser, "P@ssw0r"));
             Assert.Equal("Password should not be less than 8 characters", exception.Message);
             userManagement.CloseConnection();
         }
@@ -153,11 +148,10 @@ namespace Base.Architecture.UserManagement.Tests
         [Fact]
         public void UserManagement_Should_Not_Allow_Passwords_Without_A_Numeric_Characters()
         {
-            File.Delete(db_dir);
             var userManagement = new UserManagementCore(db_dir);
             userManagement.LogIn("admin", "admin");
 
-            var exception = Assert.Throws<Exception>(() => userManagement.UpdatePassword(dummyUser, "P@ssword"));
+            var exception = Assert.Throws<FormatException>(() => userManagement.UpdatePassword(dummyUser, "P@ssword"));
             Assert.Equal("Password should contain At least one numeric value", exception.Message);
             userManagement.CloseConnection();
         }
@@ -165,11 +159,10 @@ namespace Base.Architecture.UserManagement.Tests
         [Fact]
         public void UserManagement_Should_Not_Allow_Passwords_Without_A_Special_Characters()
         {
-            File.Delete(db_dir);
             var userManagement = new UserManagementCore(db_dir);
             userManagement.LogIn("admin", "admin");
 
-            var exception = Assert.Throws<Exception>(() => userManagement.UpdatePassword(dummyUser, "Passw0rd"));
+            var exception = Assert.Throws<FormatException>(() => userManagement.UpdatePassword(dummyUser, "Passw0rd"));
             Assert.Equal("Password should contain At least one special case characters", exception.Message);
             userManagement.CloseConnection();
         }
