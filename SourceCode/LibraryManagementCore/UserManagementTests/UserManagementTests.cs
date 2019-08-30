@@ -8,7 +8,7 @@ namespace Base.Architecture.UserManagement.Tests
     public class UserManagementTests
     {
         private readonly string db_dir;
-        private User dummyUser;
+        private readonly User dummyUser;
 
         public UserManagementTests()
         {
@@ -121,7 +121,6 @@ namespace Base.Architecture.UserManagement.Tests
             var userManagement = new UserManagementCore(db_dir);
             userManagement.LogIn("admin", "admin");
 
-            ;
             var exception = Assert.Throws<Exception>(() => userManagement.UpdatePassword(dummyUser, "P@SSW0RD"));
             Assert.Equal("Password should contain At least one lower case letter", exception.Message);
             userManagement.CloseConnection();
