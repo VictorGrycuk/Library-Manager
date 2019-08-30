@@ -13,7 +13,7 @@ namespace Base.Architecture.UserManagement.Security
 
             if (string.IsNullOrWhiteSpace(input))
             {
-                throw new Exception("Password should not be empty");
+                throw new FormatException("Password should not be empty");
             }
 
             var hasLowerChar = new Regex(@"[a-z]+");
