@@ -25,6 +25,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>7.1</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -33,8 +34,12 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>7.1</LangVersion>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper, Version=9.0.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.9.0.0\lib\net461\AutoMapper.dll</HintPath>
+    </Reference>
     <Reference Include="Esent.Interop, Version=1.9.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\ManagedEsent.1.9.4\lib\net40\Esent.Interop.dll</HintPath>
     </Reference>
@@ -208,18 +213,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="API\GoogleApi.cs" />
-    <Compile Include="API\IAPI.cs" />
+    <Compile Include="BookManagement\API\GoogleApi.cs" />
+    <Compile Include="BookManagement\BookManagement.cs" />
+    <Compile Include="BookManagement\BookManagementDB.cs" />
+    <Compile Include="BookManagement\Mapper.cs" />
+    <Compile Include="BookManagement\Models\BookDB.cs" />
     <Compile Include="Core.cs" />
-    <Compile Include="DAL\BookManagement.cs" />
-    <Compile Include="DAL\IDAL.cs" />
-    <Compile Include="DAL\LiteDB.cs" />
-    <Compile Include="IDataBase.cs" />
-    <Compile Include="Models\Author.cs" />
-    <Compile Include="Models\Book.cs" />
-    <Compile Include="Factory.cs" />
-    <Compile Include="API\GoogleBookModel.cs" />
-    <Compile Include="Models\IBook.cs" />
+    <Compile Include="BookManagement\Models\Author.cs" />
+    <Compile Include="BookManagement\Models\Book.cs" />
+    <Compile Include="BookManagement\API\GoogleBookModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -236,6 +238,7 @@
       <Name>Base.Architecture.UserManagement</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
