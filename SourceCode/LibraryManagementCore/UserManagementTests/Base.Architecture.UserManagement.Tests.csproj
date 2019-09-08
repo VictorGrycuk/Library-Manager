@@ -263,6 +263,10 @@
     <Analyzer Include="..\packages\xunit.analyzers.0.10.0\analyzers\dotnet\cs\xunit.analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Base.Architecture.DatabaseManager\Base.Architecture.DatabaseManager.csproj">
+      <Project>{bf6f4db2-1ec7-4e83-8cf8-a2094a7194e1}</Project>
+      <Name>Base.Architecture.DatabaseManager</Name>
+    </ProjectReference>
     <ProjectReference Include="..\UserManagement\Base.Architecture.UserManagement.csproj">
       <Project>{cc19ea3f-4c24-447e-bc87-6d66557a8b5f}</Project>
       <Name>Base.Architecture.UserManagement</Name>
