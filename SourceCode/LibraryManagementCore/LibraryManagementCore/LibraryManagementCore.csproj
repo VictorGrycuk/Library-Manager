@@ -215,7 +215,6 @@
   <ItemGroup>
     <Compile Include="BookManagement\API\GoogleApi.cs" />
     <Compile Include="BookManagement\BookManagement.cs" />
-    <Compile Include="BookManagement\BookManagementDB.cs" />
     <Compile Include="BookManagement\Mapper.cs" />
     <Compile Include="BookManagement\Models\BookDB.cs" />
     <Compile Include="Core.cs" />
@@ -233,6 +232,10 @@
     <Analyzer Include="..\packages\Microsoft.CodeAnalysis.Analyzers.2.9.4\analyzers\dotnet\cs\Microsoft.CodeAnalysis.CSharp.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Base.Architecture.DatabaseManager\Base.Architecture.DatabaseManager.csproj">
+      <Project>{bf6f4db2-1ec7-4e83-8cf8-a2094a7194e1}</Project>
+      <Name>Base.Architecture.DatabaseManager</Name>
+    </ProjectReference>
     <ProjectReference Include="..\UserManagement\Base.Architecture.UserManagement.csproj">
       <Project>{cc19ea3f-4c24-447e-bc87-6d66557a8b5f}</Project>
       <Name>Base.Architecture.UserManagement</Name>
