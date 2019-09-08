@@ -1,27 +1,30 @@
 ﻿using Base.Architecture.UserManagement;
 using System;
+using Base.Architecture.DatabaseManager;
 using Base.Architecture.UserManagement.Models;
 
 namespace LibraryManagementCore
 {
     public class Core
     {
-        private User curentUser;
-        private UserManagementCore userManagement;
+        private User _currentUser;
+        private readonly UserManagementCore _userManagement;
 
         public Core(string connectionString)
         {
-            userManagement = new UserManagementCore(connectionString);
+            var dbManager = new DBManager(connectionString);
+            _userManagement = new UserManagementCore(dbManager);
         }
 
         public void LogIn(string username, string password)
         {
             // Check if the given password checks against the stored password.
-            curentUser = userManagement.LogIn(username, password) ?? throw new Exception("Username or Password invalid");
+            _currentUser = _userManagement.LogIn(username, password) ??
+                           throw new Exception("Username or Password invalid");
 
             // Update the last accessed date time
-            curentUser.LastAccessed = DateTime.Now;
-            userManagement.UpdateUser(curentUser);
+            _currentUser.LastAccessed = DateTime.Now;
+            _userManagement.UpdateUser(_currentUser);
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using Base.Architecture.DatabaseManager;
 using Base.Architecture.UserManagement.Models;
 using Xunit;
 
@@ -7,15 +8,28 @@ namespace Base.Architecture.UserManagement.Tests
 {
     public class UserManagementTests
     {
-        private readonly string db_dir;
-        private readonly User dummyUser;
+        private readonly DBManager _dbManager;
+        private readonly UserManagementCore _userManagement;
+        private readonly User _dummyUser;
 
         public UserManagementTests()
         {
-            db_dir = Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName, "test.db");
-            File.Delete(db_dir);
+            var directoryInfo = Directory.GetParent(Directory.GetCurrentDirectory()).Parent;
+            var dbDir = string.Empty;
+            if (directoryInfo != null)
+            {
+                dbDir = Path.Combine(directoryInfo.FullName, "test.db");
+                
+                if (File.Exists(dbDir))
+                {
+                    File.Delete(dbDir);
+                }
+            }
 
-            dummyUser = new User
+            _dbManager = new DBManager(dbDir);
+            _userManagement = new UserManagementCore(_dbManager);
+
+            _dummyUser = new User
             {
                 Username = "DummyUserName",
                 Name = "DummyName",
@@ -26,145 +40,125 @@ namespace Base.Architecture.UserManagement.Tests
         [Fact]
         public void UserManagement_Should_Not_Allow_User_Creation_Without_Logging_In()
         {
-            var userManagement = new UserManagementCore(db_dir);
-            Assert.Throws<UnauthorizedAccessException>(() => userManagement.StoreUser(dummyUser, "password"));
-            userManagement.CloseConnection();
+            Assert.Throws<UnauthorizedAccessException>(() => _userManagement.StoreUser(_dummyUser, "password"));
+            _dbManager.Dispose();
         }
 
         [Fact]
         public void UserManagement_Should_Not_Allow_Find_User_Without_Logging_In()
         {
-            var userManagement = new UserManagementCore(db_dir);
-            Assert.Throws<UnauthorizedAccessException>(() => userManagement.FindUser(UserManagementCore.Field.Username, "admin"));
-            userManagement.CloseConnection();
+            Assert.Throws<UnauthorizedAccessException>(() => _userManagement.FindUser(UserManagementCore.Field.Username, "admin"));
+            _dbManager.Dispose();
         }
 
         [Fact]
         public void UserManagement_Should_Not_Allow_Update_User_Without_Logging_In()
         {
-            var userManagement = new UserManagementCore(db_dir);
-            Assert.Throws<UnauthorizedAccessException>(() => userManagement.UpdateUser(dummyUser));
-            userManagement.CloseConnection();
+            Assert.Throws<UnauthorizedAccessException>(() => _userManagement.UpdateUser(_dummyUser));
+            _dbManager.Dispose();
         }
 
         [Fact]
         public void UserManagement_Should_Not_Allow_Update_User_Password_Without_Logging_In()
         {
-            File.Delete(db_dir);
-            var userManagement = new UserManagementCore(db_dir);
-            Assert.Throws<UnauthorizedAccessException>(() => userManagement.UpdatePassword(dummyUser, "new password"));
-            userManagement.CloseConnection();
+            Assert.Throws<UnauthorizedAccessException>(() => _userManagement.UpdatePassword(_dummyUser, "new password"));
+            _dbManager.Dispose();
         }
 
         [Fact]
         public void UserManagement_Should_Be_Created_With_An_Admin_Account()
         {
-            File.Delete(db_dir);
-            var userManagement = new UserManagementCore(db_dir);
-            Assert.NotNull(userManagement.LogIn("admin", "admin"));
-            userManagement.CloseConnection();
+            Assert.NotNull(_userManagement.LogIn("admin", "admin"));
+            _dbManager.Dispose();
         }
 
         [Fact]
         public void UserManagement_Should_Allow_Store_New_User_After_Login()
         {
-            File.Delete(db_dir);
-            var userManagement = new UserManagementCore(db_dir);
-            userManagement.LogIn("admin", "admin");
-            userManagement.StoreUser(dummyUser, "P@ssw0rd");
-            userManagement.CloseConnection();
+            _userManagement.LogIn("admin", "admin");
+            _userManagement.StoreUser(_dummyUser, "P@ssw0rd");
+            _dbManager.Dispose();
         }
 
         [Fact]
         public void UserManagement_Should_Allow_Find_User_After_Login()
         {
-            File.Delete(db_dir);
-            var userManagement = new UserManagementCore(db_dir);
-            userManagement.LogIn("admin", "admin");
-            userManagement.StoreUser(dummyUser, "P@ssw0rd");
+            _userManagement.LogIn("admin", "admin");
+            _userManagement.StoreUser(_dummyUser, "P@ssw0rd");
 
-            Assert.NotNull(userManagement.FindUser(UserManagementCore.Field.Username, dummyUser.Username));
-            userManagement.CloseConnection();
+            Assert.NotNull(_userManagement.FindUser(UserManagementCore.Field.Username, _dummyUser.Username));
+            _dbManager.Dispose();
         }
 
         [Fact]
         public void UserManagement_Should_Allow_Update_User_After_Login()
         {
-            File.Delete(db_dir);
-            var userManagement = new UserManagementCore(db_dir);
-            userManagement.LogIn("admin", "admin");
-            userManagement.StoreUser(dummyUser, "P@ssw0rd");
-            dummyUser.Name = "UpdateDummyName";
+            _userManagement.LogIn("admin", "admin");
+            _userManagement.StoreUser(_dummyUser, "P@ssw0rd");
+            _dummyUser.Name = "UpdateDummyName";
 
-            userManagement.UpdateUser(dummyUser);
-            userManagement.CloseConnection();
+            _userManagement.UpdateUser(_dummyUser);
+            _dbManager.Dispose();
         }
 
         [Fact]
         public void UserManagement_Should_Not_Allow_Empty_Password()
         {
-            var userManagement = new UserManagementCore(db_dir);
-            userManagement.LogIn("admin", "admin");
+            _userManagement.LogIn("admin", "admin");
 
-            var exception = Assert.Throws<FormatException>(() => userManagement.UpdatePassword(dummyUser, " "));
+            var exception = Assert.Throws<FormatException>(() => _userManagement.UpdatePassword(_dummyUser, " "));
             Assert.Equal("Password should not be empty", exception.Message);
-            userManagement.CloseConnection();
+            _dbManager.Dispose();
         }
 
         [Fact]
         public void UserManagement_Should_Not_Allow_Passwords_Without_A_Lower_Character()
         {
-            var userManagement = new UserManagementCore(db_dir);
-            userManagement.LogIn("admin", "admin");
+            _userManagement.LogIn("admin", "admin");
 
-            var exception = Assert.Throws<FormatException>(() => userManagement.UpdatePassword(dummyUser, "P@SSW0RD"));
+            var exception = Assert.Throws<FormatException>(() => _userManagement.UpdatePassword(_dummyUser, "P@SSW0RD"));
             Assert.Equal("Password should contain At least one lower case letter", exception.Message);
-            userManagement.CloseConnection();
+            _dbManager.Dispose();
         }
 
         [Fact]
         public void UserManagement_Should_Not_Allow_Passwords_Without_A_Uppercase_Character()
         {
-            var userManagement = new UserManagementCore(db_dir);
-            userManagement.LogIn("admin", "admin");
+            _userManagement.LogIn("admin", "admin");
 
-            var exception = Assert.Throws<FormatException>(() => userManagement.UpdatePassword(dummyUser, "p@ssw0rd"));
+            var exception = Assert.Throws<FormatException>(() => _userManagement.UpdatePassword(_dummyUser, "p@ssw0rd"));
             Assert.Equal("Password should contain At least one upper case letter", exception.Message);
-            userManagement.CloseConnection();
+            _dbManager.Dispose();
         }
 
         [Fact]
         public void UserManagement_Should_Not_Allow_Passwords_With_Less_Than_8_Character()
         {
-            File.Delete(db_dir);
-            var userManagement = new UserManagementCore(db_dir);
-            userManagement.LogIn("admin", "admin");
+            _userManagement.LogIn("admin", "admin");
 
-            var exception = Assert.Throws<FormatException>(() => userManagement.UpdatePassword(dummyUser, "P@ssw0r"));
+            var exception = Assert.Throws<FormatException>(() => _userManagement.UpdatePassword(_dummyUser, "P@ssw0r"));
             Assert.Equal("Password should not be less than 8 characters", exception.Message);
-            userManagement.CloseConnection();
+            _dbManager.Dispose();
         }
 
         [Fact]
         public void UserManagement_Should_Not_Allow_Passwords_Without_A_Numeric_Characters()
         {
-            var userManagement = new UserManagementCore(db_dir);
-            userManagement.LogIn("admin", "admin");
+            _userManagement.LogIn("admin", "admin");
 
-            var exception = Assert.Throws<FormatException>(() => userManagement.UpdatePassword(dummyUser, "P@ssword"));
+            var exception = Assert.Throws<FormatException>(() => _userManagement.UpdatePassword(_dummyUser, "P@ssword"));
             Assert.Equal("Password should contain At least one numeric value", exception.Message);
-            userManagement.CloseConnection();
+            _dbManager.Dispose();
         }
 
         [Fact]
         public void UserManagement_Should_Not_Allow_Passwords_Without_A_Special_Characters()
         {
-            var userManagement = new UserManagementCore(db_dir);
-            userManagement.LogIn("admin", "admin");
+            _userManagement.LogIn("admin", "admin");
 
-            var exception = Assert.Throws<FormatException>(() => userManagement.UpdatePassword(dummyUser, "Passw0rd"));
+            var exception = Assert.Throws<FormatException>(() => _userManagement.UpdatePassword(_dummyUser, "Passw0rd"));
             Assert.Equal("Password should contain At least one special case characters", exception.Message);
-            userManagement.CloseConnection();
+            _dbManager.Dispose();
         }
     }
 }

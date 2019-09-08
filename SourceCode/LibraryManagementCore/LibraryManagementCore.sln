@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Base.Architecture.UserManag
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Library.Management.Core.Tests", "Library.Management.Core.Tests\Library.Management.Core.Tests.csproj", "{4A927536-EFB5-457E-A6E3-CCA77E66CF06}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Base.Architecture.DatabaseManager", "Base.Architecture.DatabaseManager\Base.Architecture.DatabaseManager.csproj", "{BF6F4DB2-1EC7-4E83-8CF8-A2094A7194E1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{4A927536-EFB5-457E-A6E3-CCA77E66CF06}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4A927536-EFB5-457E-A6E3-CCA77E66CF06}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4A927536-EFB5-457E-A6E3-CCA77E66CF06}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BF6F4DB2-1EC7-4E83-8CF8-A2094A7194E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF6F4DB2-1EC7-4E83-8CF8-A2094A7194E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BF6F4DB2-1EC7-4E83-8CF8-A2094A7194E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BF6F4DB2-1EC7-4E83-8CF8-A2094A7194E1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

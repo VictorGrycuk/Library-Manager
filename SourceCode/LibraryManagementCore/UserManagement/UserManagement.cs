@@ -1,14 +1,15 @@
-﻿using System;
-using System.Linq;
+﻿using Base.Architecture.DatabaseManager;
 using Base.Architecture.UserManagement.Models;
 using Base.Architecture.UserManagement.Security;
+using System;
+using System.Linq;
 
 namespace Base.Architecture.UserManagement
 {
     public class UserManagementCore
     {
-        readonly UserDB db;
-        bool isLogged;
+        private readonly TableManager<DetailedUser> _db;
+        private bool _isLogged;
 
         public enum Field
         {
@@ -17,13 +18,13 @@ namespace Base.Architecture.UserManagement
             LastName,
         }
 
-        public UserManagementCore(string connection)
+        public UserManagementCore(DBManager dbManager)
         {
-            db = new UserDB(connection);
+            _db = dbManager.NewTableConnection<DetailedUser>("User");
 
-            if (db.Find("Username", "admin").Count() == 0)
+            if (!_db.Exists("Username", "admin"))
             {
-                db.Add(GetNewAdmin());
+                _db.Add(GetNewAdmin());
             }
         }
 
@@ -34,20 +35,20 @@ namespace Base.Architecture.UserManagement
                 throw new ArgumentNullException("Username or Password cannot be null.");
             }
 
-            var user = db.Find("Username", username).FirstOrDefault() ?? throw new ArgumentException("User not found.");
-            isLogged = user.ValidatePassword(password);
-            if (isLogged)
+            var user = _db.Find("Username", username).FirstOrDefault() ?? throw new ArgumentException("User not found.");
+            _isLogged = user.ValidatePassword(password);
+            if (_isLogged)
             {
                 UpdateLastAccess(user);
             }
 
-            return isLogged ? user.ToUser() : null;
+            return _isLogged ? user.ToUser() : null;
         }
 
         public void StoreUser(User user, string password)
         {
             CheckLoginStatus();
-            if (db.Find("Username", user.Username).Count() > 0)
+            if (_db.Exists("Username", user.Username))
             {
                 throw new ArgumentException($"Username '{ user.Username }' already exists.");
             }
@@ -63,14 +64,14 @@ namespace Base.Architecture.UserManagement
             PasswordValidationHelper.ValidatePassword(password);
             newUser.SetPassword(password);
 
-            db.Add(newUser);
+            _db.Add(newUser);
         }
 
         public User FindUser(Field field, string value)
         {
             CheckLoginStatus();
 
-            var tempUser = db.Find(field.ToString(), value).FirstOrDefault();
+            var tempUser = _db.Find(field.ToString(), value).FirstOrDefault();
 
             return tempUser?.ToUser();
         }
@@ -79,12 +80,12 @@ namespace Base.Architecture.UserManagement
         {
             CheckLoginStatus();
 
-            var detailedUser = db.Find("Username", user.Username).FirstOrDefault();
+            var detailedUser = _db.Find("Username", user.Username).FirstOrDefault();
             detailedUser.Username = user.Username;
             detailedUser.Name = user.Name;
             detailedUser.LastName = user.LastName;
 
-            db.Update(detailedUser);
+            _db.Update(detailedUser);
         }
 
         public void UpdatePassword(User user, string password)
@@ -92,10 +93,10 @@ namespace Base.Architecture.UserManagement
             CheckLoginStatus();
             PasswordValidationHelper.ValidatePassword(password);
 
-            var detailedUser = db.Find("Username", user.Username).FirstOrDefault();
+            var detailedUser = _db.Find("Username", user.Username).FirstOrDefault();
             detailedUser.SetPassword(password);
 
-            db.Update(detailedUser);
+            _db.Update(detailedUser);
         }
 
         private static DetailedUser GetNewAdmin()
@@ -114,25 +115,15 @@ namespace Base.Architecture.UserManagement
         private void UpdateLastAccess(DetailedUser detailedUser)
         {
             detailedUser.LastAccessed = DateTime.Now;
-            db.Update(detailedUser);
+            _db.Update(detailedUser);
         }
 
         private void CheckLoginStatus()
         {
-            if (!isLogged)
+            if (!_isLogged)
             {
                 throw new UnauthorizedAccessException("Please log in.");
             }
-        }
-
-        public void DropTable(string tableName)
-        {
-            db.Drop(tableName);
-        }
-
-        public void CloseConnection()
-        {
-            db.Close();
         }
     }
 }

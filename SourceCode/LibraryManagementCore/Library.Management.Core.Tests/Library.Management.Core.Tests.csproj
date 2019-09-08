@@ -258,6 +258,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Base.Architecture.DatabaseManager\Base.Architecture.DatabaseManager.csproj">
+      <Project>{bf6f4db2-1ec7-4e83-8cf8-a2094a7194e1}</Project>
+      <Name>Base.Architecture.DatabaseManager</Name>
+    </ProjectReference>
     <ProjectReference Include="..\LibraryManagementCore\LibraryManagementCore.csproj">
       <Project>{06b0a40a-bdeb-4582-a42d-ab03ac4201db}</Project>
       <Name>LibraryManagementCore</Name>

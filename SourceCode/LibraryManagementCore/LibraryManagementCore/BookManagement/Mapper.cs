@@ -9,80 +9,64 @@ using System.Runtime.CompilerServices;
 [assembly: InternalsVisibleTo("Library.Management.Core.Tests")]
 namespace LibraryManagementCore.BookManagement
 {
-    internal class Mapper : IDisposable
+    internal static class Mapper
     {
-        private readonly BookManagementDB db;
-        private readonly IMapper mapper;
-
-        public Mapper(BookManagementDB dB)
-        {
-            db = dB;
-
-            mapper = new MapperConfiguration(configuration =>
-            {
-                configuration.CreateMap<GoogleBookModel, Book>()
-                .ForMember(destination => destination.PublishedDate, o => o.MapFrom(source => new DateTime(int.Parse(source.publishedDate), 1, 1)))
-                .ForMember(destination => destination.Isbn, o => o.MapFrom(source => source.industryIdentifiers[0].identifier))
-                .ForMember(destination => destination.Authors, o => o.MapFrom(source => GetGoogleBookAuthors(source.authors)));
-
-                configuration.CreateMap<BookDB, Book>()
-                .ForMember(destination => destination.Authors, o => o.MapFrom(source => GetAuthorsFromDB(source.Authors)));
-
-                configuration.CreateMap<Book, BookDB>()
-                .ForMember(destination => destination.Authors, o => o.MapFrom(source => source.Authors.Select(a => a.ID).ToList()));
-            }).CreateMapper();
-        }
-
         /// <summary>
         /// Convert from <see cref="GoogleBookModel"/> to <see cref="Book"/>,
         /// and back and forth between <see cref="Book"/> and <see cref="BookDB"/>.
         /// </summary>
-        /// <typeparam name="Source">The source class type. Can be <see cref="GoogleBookModel"/>, <see cref="BookDB"/>, or <see cref="Book"/>.</typeparam>
-        /// <typeparam name="Destination">The destination class type. Can be either <see cref="BookDB"/> or <see cref="Book"/>.</typeparam>
+        /// <typeparam name="TSource">The source class type. Can be <see cref="GoogleBookModel"/>, <see cref="BookDB"/>, or <see cref="Book"/>.</typeparam>
+        /// <typeparam name="TDestination">The destination class type. Can be either <see cref="BookDB"/> or <see cref="Book"/>.</typeparam>
         /// <param name="origin"></param>
         /// <returns></returns>
-        public Destination ConvertModel<Source, Destination>(Source origin) where Source : class, new()
+        public static TDestination ConvertModel<TSource, TDestination>(TSource origin) where TSource : class, new()
         {
-            return mapper.Map<Source, Destination>(origin);
+            return GetConfiguration(origin).Map<TSource, TDestination>(origin);
         }
 
-        private List<Author> GetGoogleBookAuthors(string[] authors)
+        private static IMapper GetConfiguration<TSource>(TSource value) where TSource : class, new()
         {
-            var authorList = new List<Author>();
-
-            foreach (var author in authors)
+            switch (value)
             {
-                authorList.Add(GetAuthor("Name", author) ?? new Author { Name = author, ID = Guid.NewGuid() });
+                case GoogleBookModel _:
+                    return GetGoogleMapper();
+                case BookDB _:
+                    return GetBookDbMapper();
+                case Book _:
+                    return GetBookMapper();
+                default:
+                    throw new ArgumentException(value.GetType() + " not supported.");
             }
-
-            return authorList;
         }
 
-        private List<Author> GetAuthorsFromDB(List<Guid> authors)
+        private static IMapper GetGoogleMapper()
         {
-            var authorList = new List<Author>();
-
-            foreach (var author in authors)
+            return new MapperConfiguration(configuration =>
             {
-                authorList.Add(GetAuthor(author) ?? new Author { ID = Guid.NewGuid() });
-            }
-
-            return authorList;
+                configuration.CreateMap<GoogleBookModel, Book>()
+                    .ForMember(dest => dest.PublishedDate, o => o.MapFrom(sou => new DateTime(int.Parse(sou.publishedDate), 1, 1)))
+                    .ForMember(dest => dest.Isbn, o => o.MapFrom(sou => sou.industryIdentifiers[0].identifier))
+                    .ForMember(destination => destination.Authors, o => o.MapFrom(source => source.authors.Select(author => new Author { Name = author }).ToList()))
+                    .ForMember(dest => dest.ID, o => o.MapFrom(sou => Guid.NewGuid()));
+            }).CreateMapper();
         }
 
-        private Author GetAuthor(string field, string value)
+        private static IMapper GetBookDbMapper()
         {
-            return db.Find<Author>(field, value).FirstOrDefault();
+            return new MapperConfiguration(configuration =>
+            {
+                configuration.CreateMap<BookDB, Book>()
+                    .ForMember(destination => destination.Authors, o => o.MapFrom(source => new List<Author>()));
+            }).CreateMapper();
         }
 
-        private Author GetAuthor(Guid value)
+        private static IMapper GetBookMapper()
         {
-            return db.Find<Author>(value);
-        }
-
-        public void Dispose()
-        {
-            db.Close();
+            return new MapperConfiguration(configuration =>
+            {
+                configuration.CreateMap<Book, BookDB>()
+                    .ForMember(destination => destination.Authors, o => o.MapFrom(source => new List<Guid>()));
+            }).CreateMapper();
         }
     }
 }

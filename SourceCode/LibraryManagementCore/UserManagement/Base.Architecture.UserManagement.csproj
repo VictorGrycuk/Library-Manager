@@ -231,7 +231,6 @@
   <ItemGroup>
     <Compile Include="Models\DetailedUser.cs" />
     <Compile Include="Security\PasswordValidationHelper.cs" />
-    <Compile Include="UserDB.cs" />
     <Compile Include="UserManagement.cs" />
     <Compile Include="Security\EncryptionHelper.cs" />
     <Compile Include="Models\User.cs" />
@@ -244,6 +243,12 @@
   <ItemGroup>
     <Analyzer Include="..\packages\Microsoft.CodeAnalysis.Analyzers.1.1.0\analyzers\dotnet\cs\Microsoft.CodeAnalysis.Analyzers.dll" />
     <Analyzer Include="..\packages\Microsoft.CodeAnalysis.Analyzers.1.1.0\analyzers\dotnet\cs\Microsoft.CodeAnalysis.CSharp.Analyzers.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Base.Architecture.DatabaseManager\Base.Architecture.DatabaseManager.csproj">
+      <Project>{bf6f4db2-1ec7-4e83-8cf8-a2094a7194e1}</Project>
+      <Name>Base.Architecture.DatabaseManager</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

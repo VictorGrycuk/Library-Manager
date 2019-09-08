@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using Base.Architecture.DatabaseManager;
 using LibraryManagementCore.BookManagement.Api;
 using LibraryManagementCore.BookManagement.Models;
 
@@ -6,66 +8,98 @@ namespace LibraryManagementCore.BookManagement
 {
     public class BookManagement
     {
-        private readonly BookManagementDB bookCollection;
-        private readonly Mapper mapper;
+        private readonly TableManager<BookDB> _bookCollection;
+        private readonly TableManager<Author> _authorCollection;
 
-        public BookManagement(string connectionString)
+        public BookManagement(DBManager dbManager)
         {
-            bookCollection = new BookManagementDB(connectionString);
-            mapper = new Mapper(bookCollection);
+            _bookCollection = dbManager.NewTableConnection<BookDB>("Book");
+            _authorCollection = dbManager.NewTableConnection<Author>();
         }
 
         public Book GetBookFromApi(string isbn)
         {
             var googleBook = GoogleApi.FindBook(isbn);
+            var book = Mapper.ConvertModel<GoogleBookModel, Book>(googleBook);
 
-            return mapper.ConvertModel<GoogleBookModel, Book>(googleBook);
+            foreach (var author in googleBook.authors)
+            {
+                var foundAuthor = _authorCollection.Find("Name", author).FirstOrDefault();
+                if (foundAuthor == null) continue;
+
+                book.Authors.Remove(book.Authors.SingleOrDefault(a => a.Name == author));
+                book.Authors.Add(foundAuthor);
+            }
+
+            return book;
         }
 
-        public void AddBookToCollection(Book book)
+        public void AddToCollection(Book book)
         {
-            bookCollection.Add(mapper.ConvertModel<Book, BookDB>(book));
+            _bookCollection.Add(GetDbModel(book));
         }
 
-        public void AddAuthorToCollection(Author author)
+        public void AddToCollection(Author author)
         {
-            bookCollection.Add(author);
+            _authorCollection.Add(author);
         }
 
-        public Book FindBookInCollection(string field, string value)
+        public Book FindBook(string field, string value)
         {
-            return mapper.ConvertModel<BookDB, Book>(bookCollection.Find<BookDB>(field, value).FirstOrDefault());
+            var storedBook = _bookCollection.Find(field, value).FirstOrDefault();
+            if (storedBook == null) return null;
+
+            var book = Mapper.ConvertModel<BookDB, Book>(storedBook);
+            foreach (var storedAuthor in storedBook.Authors.Select(author => _authorCollection.Find(author)).Where(storedAuthor => storedAuthor != null))
+            {
+                book.Authors.Add(storedAuthor);
+            }
+
+            return book;
         }
 
-        public Author FindAuthorInCollection(string field, string value)
+        public Author FindAuthor(string field, string value)
         {
-            return bookCollection.Find<Author>(field, value).FirstOrDefault();
+            return _authorCollection.Find(field, value).FirstOrDefault();
         }
 
-        public void RemoveBookFromCollection(Book book)
+        public void RemoveFromCollection(Book book)
         {
-            bookCollection.Delete(mapper.ConvertModel<Book, BookDB>(book));
+            _bookCollection.Delete(GetDbModel(book));
         }
 
-        public void RemoveAuthorFromCollection(Author author)
+        public void RemoveFromCollection(Author author)
         {
-            bookCollection.Delete(author);
+            _authorCollection.Delete(author);
         }
 
         public void Update(Author author)
         {
-            bookCollection.Update(author);
+            _authorCollection.Update(author);
         }
 
         public void Update(Book book)
         {
-            bookCollection.Update(mapper.ConvertModel<Book, BookDB>(book));
+            _bookCollection.Update(GetDbModel(book));
         }
 
-        public void Disconnect()
+        private BookDB GetDbModel(Book book)
         {
-            bookCollection.Close();
-            mapper.Dispose();
+            var dbModel = Mapper.ConvertModel<Book, BookDB>(book);
+
+            foreach (var author in book.Authors)
+            {
+                var storedAuthor = _authorCollection.Find("Name", author.Name).FirstOrDefault();
+                if (storedAuthor != null) dbModel.Authors.Add(storedAuthor.ID);
+                else
+                {
+                    var newAuthor = new Author { Name = author.Name, ID = Guid.NewGuid() };
+                    dbModel.Authors.Add(newAuthor.ID);
+                    _authorCollection.Add(newAuthor);
+                }
+            }
+
+            return dbModel;
         }
     }
 }

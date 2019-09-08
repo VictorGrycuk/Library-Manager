@@ -1,23 +1,36 @@
+using Base.Architecture.DatabaseManager;
 using LibraryManagementCore.BookManagement;
 using LibraryManagementCore.BookManagement.Api;
 using LibraryManagementCore.BookManagement.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Xunit;
 
 namespace Library.Management.Core.Tests
 {
     public class BookManagementTests
     {
-        private readonly string _dbDir;
+        private readonly DBManager _dbManager;
         private readonly BookDB _dummyBookDB;
         private readonly Author _dummyAuthor;
 
         public BookManagementTests()
         {
-            _dbDir = Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName, "test.db");
-            File.Delete(_dbDir);
+            var directoryInfo = Directory.GetParent(Directory.GetCurrentDirectory()).Parent;
+            var dbDir = string.Empty;
+            if (directoryInfo != null)
+            {
+                dbDir = Path.Combine(directoryInfo.FullName, "test.db");
+
+                if (File.Exists(dbDir))
+                {
+                    File.Delete(dbDir);
+                }
+            }
+
+            _dbManager = new DBManager(dbDir);
 
             _dummyAuthor = new Author
             {
@@ -65,10 +78,8 @@ namespace Library.Management.Core.Tests
         [Fact]
         public void Mapper_Should_Map_Google_Model_To_Book()
         {
-            var mapper = new Mapper(new BookManagementDB(_dbDir));
             var source = GoogleApi.FindBook("9780132350884");
-            var destination = mapper.ConvertModel<GoogleBookModel, Book>(source);
-            mapper.Dispose();
+            var destination = Mapper.ConvertModel<GoogleBookModel, Book>(source);
 
             Assert.Equal(source.title, destination.Title);
             Assert.Equal(source.industryIdentifiers[0].identifier, destination.Isbn);
@@ -79,21 +90,15 @@ namespace Library.Management.Core.Tests
             Assert.Equal(source.averageRating, destination.AverageRating);
             Assert.Equal(source.maturityRating, destination.MaturityRating);
             Assert.Equal(source.language, destination.Language);
-
-            for (var i = 0; i < source.authors.Length; i++)
-            {
-                Assert.Equal(destination.Authors[i].Name, source.authors[i]);
-            }
+            Assert.Equal(source.authors[0], destination.Authors[0].Name);
         }
 
         [Fact]
         public void Mapper_Should_Map_Book_To_Database_Model()
         {
-            var mapper = new Mapper(new BookManagementDB(_dbDir));
             var googleBook = GoogleApi.FindBook("9780132350884");
-            var book = mapper.ConvertModel<GoogleBookModel, Book>(googleBook);
-            var databaseModel = mapper.ConvertModel<Book, BookDB>(book);
-            mapper.Dispose();
+            var book = Mapper.ConvertModel<GoogleBookModel, Book>(googleBook);
+            var databaseModel = Mapper.ConvertModel<Book, BookDB>(book);
 
             ValidateBook(book, databaseModel);
         }
@@ -101,13 +106,7 @@ namespace Library.Management.Core.Tests
         [Fact]
         public void Mapper_Should_Map_DatabaseModel_To_Book()
         {
-            var bookManagement = new BookManagement(_dbDir);
-            bookManagement.AddAuthorToCollection(_dummyAuthor);
-            bookManagement.Disconnect();
-
-            var mapper = new Mapper(new BookManagementDB(_dbDir));
-            var book = mapper.ConvertModel<BookDB, Book>(_dummyBookDB);
-            mapper.Dispose();
+            var book = Mapper.ConvertModel<BookDB, Book>(_dummyBookDB);
 
             ValidateBook(book, _dummyBookDB);
         }
@@ -115,107 +114,133 @@ namespace Library.Management.Core.Tests
         [Fact]
         public void BookManagement_Should_Return_Book_From_Api()
         {
-            var bookManagement = new BookManagement(_dbDir);
+            var bookManagement = new BookManagement(_dbManager);
+            bookManagement.AddToCollection(new Author { Name = "Robert C. Martin", ID = Guid.NewGuid()});
 
-            Assert.NotNull(bookManagement.GetBookFromApi("9780132350884"));
-            bookManagement.Disconnect();
+            var book = bookManagement.GetBookFromApi("9780132350884");
+            _dbManager.Dispose();
+
+            Assert.Equal("en", book.Language);
+            Assert.Equal(431, book.PageCount);
+            Assert.Equal(4.5, book.AverageRating);
+            Assert.Equal("Clean Code", book.Title);
+            Assert.Equal("9780132350884", book.Isbn);
+            Assert.Equal("NOT_MATURE", book.MaturityRating);
+            Assert.Equal("Pearson Education", book.Publisher);
+            Assert.Equal("2009", book.PublishedDate.Year.ToString());
+            Assert.Equal("Robert C. Martin", book.Authors.FirstOrDefault()?.Name);
+            Assert.StartsWith("Looks at the principles and clean code", book.Description);
         }
 
         [Fact]
         public void BookManagement_Should_Add_Book_To_DB()
         {
-            var bookManagement = new BookManagement(_dbDir);
+            var bookManagement = new BookManagement(_dbManager);
+            var book = bookManagement.GetBookFromApi("9780132350884");
 
-            bookManagement.AddBookToCollection(_dummyBookDB);
-            bookManagement.Disconnect();
+            bookManagement.AddToCollection(book);
+            _dbManager.Dispose();
         }
 
         [Fact]
         public void BookManagement_Should_Find_Book_In_DB()
         {
-            var bookManagement = new BookManagement(_dbDir);
-            bookManagement.AddBookToCollection(_dummyBookDB);
+            var bookManagement = new BookManagement(_dbManager);
+            bookManagement.AddToCollection(new Author { Name = "Robert C. Martin", ID = Guid.NewGuid() });
+            var book = bookManagement.GetBookFromApi("9780132350884");
+            bookManagement.AddToCollection(book);
 
-            Assert.NotNull(bookManagement.FindBookInCollection("Isbn", "xxxxxxxxxxxxx"));
-            bookManagement.Disconnect();
+            var foundBook = bookManagement.FindBook("Title", "Clean Code");
+
+            Assert.Equal(book.ID, foundBook.ID);
+            Assert.Equal(book.Isbn, foundBook.Isbn);
+            Assert.Equal(book.Title, foundBook.Title);
+            Assert.Equal(book.Publisher, foundBook.Publisher);
+            Assert.Equal(book.Language, foundBook.Language);
+            Assert.Equal(book.PageCount, foundBook.PageCount);
+            Assert.Equal(book.Description, foundBook.Description);
+            Assert.Equal(book.AverageRating, foundBook.AverageRating);
+            Assert.Equal(book.Authors[0].ID, foundBook.Authors[0].ID);
+            Assert.Equal(book.PublishedDate, foundBook.PublishedDate);
+            Assert.Equal(book.MaturityRating, foundBook.MaturityRating);
+            Assert.Equal(book.Authors[0].Name, foundBook.Authors[0].Name);
+            _dbManager.Dispose();
+
         }
 
         [Fact]
         public void BookManagement_Should_Delete_Book_From_DB()
         {
-            var mapper = new Mapper(new BookManagementDB(_dbDir));
-            var bookManagement = new BookManagement(_dbDir);
-            var book = mapper.ConvertModel<BookDB, Book>(_dummyBookDB);
-            mapper.Dispose();
+            var bookManagement = new BookManagement(_dbManager);
+            var book = bookManagement.GetBookFromApi("9780132350884");
+            bookManagement.AddToCollection(book);
 
-            bookManagement.AddBookToCollection(book);
-            bookManagement.RemoveBookFromCollection(book);
+            bookManagement.RemoveFromCollection(book);
 
-            Assert.Null(bookManagement.FindBookInCollection("Isbn", "xxxxxxxxxxxxx"));
-            bookManagement.Disconnect();
+            Assert.Null(bookManagement.FindBook("Title", book.Title));
+            _dbManager.Dispose();
         }
 
         [Fact]
         public void BookManagement_Should_Add_Author_To_DB()
         {
-            var bookManagement = new BookManagement(_dbDir);
-            bookManagement.AddAuthorToCollection(_dummyAuthor);
+            var bookManagement = new BookManagement(_dbManager);
+            bookManagement.AddToCollection(_dummyAuthor);
 
-            bookManagement.Disconnect();
+            _dbManager.Dispose();
         }
 
         [Fact]
         public void BookManagement_Should_Find_Author_In_DB()
         {
-            var bookManagement = new BookManagement(_dbDir);
-            bookManagement.AddAuthorToCollection(_dummyAuthor);
-            Assert.NotNull(bookManagement.FindAuthorInCollection("Name", "DummyAuthor"));
+            var bookManagement = new BookManagement(_dbManager);
+            bookManagement.AddToCollection(_dummyAuthor);
 
-            bookManagement.Disconnect();
+            Assert.NotNull(bookManagement.FindAuthor("Name", _dummyAuthor.Name));
+
+            _dbManager.Dispose();
         }
 
         [Fact]
         public void BookManagement_Should_Delete_Author_From_DB()
         {
-            var bookManagement = new BookManagement(_dbDir);
-            bookManagement.AddAuthorToCollection(_dummyAuthor);
-            bookManagement.RemoveAuthorFromCollection(_dummyAuthor);
-            Assert.Null(bookManagement.FindAuthorInCollection("Name", _dummyAuthor.Name));
+            var bookManagement = new BookManagement(_dbManager);
+            bookManagement.AddToCollection(_dummyAuthor);
+            bookManagement.RemoveFromCollection(_dummyAuthor);
 
-            bookManagement.Disconnect();
+            Assert.Null(bookManagement.FindAuthor("Name", _dummyAuthor.Name));
+
+            _dbManager.Dispose();
         }
 
         [Fact]
         public void BookManagement_Should_Update_Author_In_DB()
         {
-            var bookManagement = new BookManagement(_dbDir);
-            bookManagement.AddAuthorToCollection(_dummyAuthor);
+            var bookManagement = new BookManagement(_dbManager);
+            bookManagement.AddToCollection(_dummyAuthor);
             _dummyAuthor.Name = "NewName";
             bookManagement.Update(_dummyAuthor);
-            Assert.NotNull(bookManagement.FindAuthorInCollection("Name", _dummyAuthor.Name));
+            Assert.NotNull(bookManagement.FindAuthor("Name", _dummyAuthor.Name));
 
-            bookManagement.Disconnect();
+            _dbManager.Dispose();
         }
 
         [Fact]
         public void BookManagement_Should_Update_Book_In_DB()
         {
-            var mapper = new Mapper(new BookManagementDB(_dbDir));
-            var bookManagement = new BookManagement(_dbDir);
-            var book = mapper.ConvertModel<BookDB, Book>(_dummyBookDB);
-            mapper.Dispose();
+            var bookManagement = new BookManagement(_dbManager);
+            var book = bookManagement.GetBookFromApi("9780132350884");
+            bookManagement.AddToCollection(book);
+            book.Title = "Modified Title";
 
-            bookManagement.AddBookToCollection(book);
-            book.Isbn = "yyyyyyyyyyyyy";
             bookManagement.Update(book);
+            Assert.NotNull(bookManagement.FindBook("Title", book.Title));
 
-            Assert.NotNull(bookManagement.FindBookInCollection("Isbn", "yyyyyyyyyyyyy"));
-            bookManagement.Disconnect();
+            _dbManager.Dispose();
         }
 
         private static void ValidateBook(Book book, BookDB bookDb)
         {
-            Assert.Equal(book.Authors[0].ID, bookDb.Authors[0]);
             Assert.Equal(book.AverageRating, bookDb.AverageRating);
             Assert.Equal(book.Description, bookDb.Description);
             Assert.Equal(book.Isbn, bookDb.Isbn);
