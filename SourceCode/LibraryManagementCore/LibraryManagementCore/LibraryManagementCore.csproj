@@ -236,6 +236,10 @@
       <Project>{bf6f4db2-1ec7-4e83-8cf8-a2094a7194e1}</Project>
       <Name>Base.Architecture.DatabaseManager</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Base.Architecture.Logger\Base.Architecture.Logger.csproj">
+      <Project>{B0E040E3-D40D-4017-94DC-00F59DBD9D80}</Project>
+      <Name>Base.Architecture.Logger</Name>
+    </ProjectReference>
     <ProjectReference Include="..\UserManagement\Base.Architecture.UserManagement.csproj">
       <Project>{cc19ea3f-4c24-447e-bc87-6d66557a8b5f}</Project>
       <Name>Base.Architecture.UserManagement</Name>
