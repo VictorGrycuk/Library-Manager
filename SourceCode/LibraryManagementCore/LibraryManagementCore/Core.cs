@@ -3,7 +3,6 @@ using System;
 using Base.Architecture.DatabaseManager;
 using Base.Architecture.UserManagement.Models;
 using Base.Architecture.Logger;
-using Base.Architecture.LoggerManager;
 
 namespace LibraryManagementCore
 {
@@ -30,12 +29,12 @@ namespace LibraryManagementCore
                 // Update the last accessed date time
                 _currentUser.LastAccessed = DateTime.Now;
                 _userManagement.UpdateUser(_currentUser);
-                Logger?.Log(LoggerManager.LogType.Audit, new LogEntry { Username = _currentUser.Username, Message = "Logged in" });
+                Logger?.Log(LogType.Audit, new LogEntry { Username = _currentUser.Username, Message = "Logged in" });
             }
             catch (Exception e)
             {
-                Logger?.Log(LoggerManager.LogType.Audit, new LogEntry { Username = username, Message = "Failed log in" });
-                Logger?.Log(LoggerManager.LogType.Error, e);
+                Logger?.Log(LogType.Audit, new LogEntry { Username = username, Message = "Failed log in" });
+                Logger?.Log(LogType.Error, e);
                 throw;
             }
         }
