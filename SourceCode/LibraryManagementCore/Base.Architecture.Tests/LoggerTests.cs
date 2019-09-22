@@ -10,6 +10,7 @@ namespace Base.Architecture.Tests
     public class LoggerTests
     {
         private readonly string _baseFolder;
+        private readonly string _db;
 
         public LoggerTests()
         {
@@ -18,6 +19,8 @@ namespace Base.Architecture.Tests
             {
                 _baseFolder = directoryInfo.FullName;
             }
+
+            _db = this + ".db";
         }
 
         [Fact]
@@ -54,7 +57,7 @@ namespace Base.Architecture.Tests
         public void Adding_Duplicated_LogType_Should_Be_Controlled()
         {
             var loggerManager = new LoggerManager();
-            var db = Path.Combine(_baseFolder, "test.db");
+            var db = Path.Combine(_baseFolder, _db);
             loggerManager.AddNewLogger(new DBManager(db), LogType.Audit);
 
             var ex = Assert.Throws<ArgumentException>(() => loggerManager.AddNewLogger(new DBManager(db), LogType.Audit));
@@ -68,7 +71,7 @@ namespace Base.Architecture.Tests
         public void Removing_Logger_Should_Successfully_Dispose_It()
         {
             var loggerManager = new LoggerManager();
-            var db = Path.Combine(_baseFolder, "test.db");
+            var db = Path.Combine(_baseFolder, _db);
             loggerManager.AddNewLogger(new DBManager(db), LogType.Audit);
             loggerManager.Log(LogType.Audit, new LogEntry( new Exception("Test Message")));
             loggerManager.Remove(LogType.Audit);
@@ -83,7 +86,7 @@ namespace Base.Architecture.Tests
         public void Must_Log_LogEntry_With_Every_Constructor()
         {
             var loggerManager = new LoggerManager();
-            var db = Path.Combine(_baseFolder, "test.db");
+            var db = Path.Combine(_baseFolder, _db);
             loggerManager.AddNewLogger(new DBManager(db), LogType.Audit);
 
             loggerManager.Log(LogType.Audit, new LogEntry { Username = "TestUsername" });

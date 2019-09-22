@@ -22,7 +22,7 @@ namespace Library.Management.Core.Tests
             var dbDir = string.Empty;
             if (directoryInfo != null)
             {
-                dbDir = Path.Combine(directoryInfo.FullName, "test.db");
+                dbDir = Path.Combine(directoryInfo.FullName, this + ".db");
 
                 if (File.Exists(dbDir))
                 {
