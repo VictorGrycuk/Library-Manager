@@ -1,10 +1,11 @@
 ﻿using System;
 using System.IO;
 using Base.Architecture.DatabaseManager;
+using Base.Architecture.UserManagement;
 using Base.Architecture.UserManagement.Models;
 using Xunit;
 
-namespace Base.Architecture.UserManagement.Tests
+namespace Base.Architecture.Tests
 {
     public class UserManagementTests
     {
@@ -19,7 +20,7 @@ namespace Base.Architecture.UserManagement.Tests
             if (directoryInfo != null)
             {
                 dbDir = Path.Combine(directoryInfo.FullName, "test.db");
-                
+
                 if (File.Exists(dbDir))
                 {
                     File.Delete(dbDir);
