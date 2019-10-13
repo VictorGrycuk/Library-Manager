@@ -1,15 +1,18 @@
-﻿using Base.Architecture.UserManagement;
+using Base.Architecture.UserManagement;
 using System;
 using Base.Architecture.DatabaseManager;
 using Base.Architecture.UserManagement.Models;
 using Base.Architecture.Logger;
+using LibraryManagementCore.BookManagement;
+using LibraryManagementCore.Localization;
 
 namespace LibraryManagementCore
 {
     public class LibraryCore
     {
         public LoggerManager Logger;
-        private User _currentUser;
+        public User LoggedUser;
+        public LocalizationManager Localization;
         private readonly UserManagementCore _userManagement;
 
         public LibraryCore(string connectionString)

@@ -126,6 +126,7 @@
     <Reference Include="System.Diagnostics.StackTrace, Version=4.0.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Diagnostics.StackTrace.4.3.0\lib\net46\System.Diagnostics.StackTrace.dll</HintPath>
     </Reference>
+    <Reference Include="System.Drawing" />
     <Reference Include="System.IO, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.IO.4.3.0\lib\net462\System.IO.dll</HintPath>
       <Private>True</Private>
@@ -191,6 +192,7 @@
     <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
     </Reference>
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -221,6 +223,7 @@
     <Compile Include="BookManagement\Models\Author.cs" />
     <Compile Include="BookManagement\Models\Book.cs" />
     <Compile Include="BookManagement\API\GoogleBookModel.cs" />
+    <Compile Include="Localization\Localization.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -239,6 +242,10 @@
     <ProjectReference Include="..\Base.Architecture.Logger\Base.Architecture.Logger.csproj">
       <Project>{B0E040E3-D40D-4017-94DC-00F59DBD9D80}</Project>
       <Name>Base.Architecture.Logger</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Base.Architecture.Multilanguage\Base.Architecture.Multilanguage.csproj">
+      <Project>{47d1a37b-6e9b-4ca9-b1c9-0ecaeb2feb16}</Project>
+      <Name>Base.Architecture.Multilanguage</Name>
     </ProjectReference>
     <ProjectReference Include="..\UserManagement\Base.Architecture.UserManagement.csproj">
       <Project>{cc19ea3f-4c24-447e-bc87-6d66557a8b5f}</Project>
