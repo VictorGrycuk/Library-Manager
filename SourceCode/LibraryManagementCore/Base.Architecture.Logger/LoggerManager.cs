@@ -1,4 +1,4 @@
-﻿using Base.Architecture.DatabaseManager;
+using Base.Architecture.DatabaseManager;
 using System;
 using System.Collections.Generic;
 
@@ -28,6 +28,7 @@ namespace Base.Architecture.Logger
         public void Remove(LogType logType)
         {
             Find(logType).Dispose();
+            // add dispose
             _loggers.Remove(logType);
         }
 
