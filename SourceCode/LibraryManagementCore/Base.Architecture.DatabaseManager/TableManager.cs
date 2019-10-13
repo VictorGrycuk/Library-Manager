@@ -1,6 +1,8 @@
 ﻿using LiteDB;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
+using System.Linq;
 
 namespace Base.Architecture.DatabaseManager
 {
@@ -25,7 +27,7 @@ namespace Base.Architecture.DatabaseManager
 
         public void Delete(TObjectType objectType)
         {
-            var value = typeof(TObjectType).GetProperty("ID")?.GetValue(objectType)
+            var value = typeof(TObjectType).GetProperty("Id")?.GetValue(objectType)
                 ?? throw new ArgumentException($"Object { objectType.GetType() } is missing property 'ID'");
 
             _db.Delete((Guid) value);
@@ -39,6 +41,11 @@ namespace Base.Architecture.DatabaseManager
         public TObjectType Find(Guid id)
         {
             return _db.FindById(id);
+        }
+
+        public IEnumerable<TObjectType> GetAll()
+        {
+            return _db.FindAll();
         }
 
         public bool Exists(string field, string value)

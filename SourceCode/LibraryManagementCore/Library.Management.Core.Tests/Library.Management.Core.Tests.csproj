@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="..\packages\xunit.runner.visualstudio.2.4.1\build\net20\xunit.runner.visualstudio.props" Condition="Exists('..\packages\xunit.runner.visualstudio.2.4.1\build\net20\xunit.runner.visualstudio.props')" />
   <Import Project="..\packages\xunit.core.2.4.1\build\xunit.core.props" Condition="Exists('..\packages\xunit.core.2.4.1\build\xunit.core.props')" />
@@ -261,6 +261,10 @@
     <ProjectReference Include="..\Base.Architecture.DatabaseManager\Base.Architecture.DatabaseManager.csproj">
       <Project>{bf6f4db2-1ec7-4e83-8cf8-a2094a7194e1}</Project>
       <Name>Base.Architecture.DatabaseManager</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Base.Architecture.Logger\Base.Architecture.Logger.csproj">
+      <Project>{B0E040E3-D40D-4017-94DC-00F59DBD9D80}</Project>
+      <Name>Base.Architecture.Logger</Name>
     </ProjectReference>
     <ProjectReference Include="..\LibraryManagementCore\LibraryManagementCore.csproj">
       <Project>{06b0a40a-bdeb-4582-a42d-ab03ac4201db}</Project>

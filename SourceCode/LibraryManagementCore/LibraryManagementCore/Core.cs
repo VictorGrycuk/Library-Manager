@@ -2,29 +2,47 @@
 using System;
 using Base.Architecture.DatabaseManager;
 using Base.Architecture.UserManagement.Models;
+using Base.Architecture.Logger;
+using LibraryManagementCore.BookManagement;
+using LibraryManagementCore.Localization;
 
 namespace LibraryManagementCore
 {
-    public class Core
+    public class LibraryCore
     {
-        private User _currentUser;
+        public LoggerManager Logger;
+        public User LoggedUser;
+        public LocalizationManager Localization;
+        public readonly BookManager BookManager;
         private readonly UserManagementCore _userManagement;
 
-        public Core(string connectionString)
+        public LibraryCore(string connectionString)
         {
             var dbManager = new DBManager(connectionString);
             _userManagement = new UserManagementCore(dbManager);
+            BookManager = new BookManager(dbManager);
+            Localization = new LocalizationManager(dbManager);
         }
 
         public void LogIn(string username, string password)
         {
-            // Check if the given password checks against the stored password.
-            _currentUser = _userManagement.LogIn(username, password) ??
-                           throw new Exception("Username or Password invalid");
+            try
+            {
+                // Check if the given password checks against the stored password.
+                LoggedUser = _userManagement.LogIn(username, password) ??
+                               throw new ArgumentException("Username or Password invalid");
 
-            // Update the last accessed date time
-            _currentUser.LastAccessed = DateTime.Now;
-            _userManagement.UpdateUser(_currentUser);
+                // Update the last accessed date time
+                LoggedUser.LastAccessed = DateTime.Now;
+                _userManagement.UpdateUser(LoggedUser);
+                Logger?.Log(LogType.Audit, new LogEntry { Username = LoggedUser.Username, Message = "Logged in" });
+            }
+            catch (Exception e)
+            {
+                Logger?.Log(LogType.Audit, new LogEntry { Username = username, Message = "Failed log in" });
+                Logger?.Log(LogType.Error, e);
+                throw;
+            }
         }
     }
 }

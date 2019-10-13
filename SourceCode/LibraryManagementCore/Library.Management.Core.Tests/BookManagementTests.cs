@@ -22,7 +22,7 @@ namespace Library.Management.Core.Tests
             var dbDir = string.Empty;
             if (directoryInfo != null)
             {
-                dbDir = Path.Combine(directoryInfo.FullName, "test.db");
+                dbDir = Path.Combine(directoryInfo.FullName, this + ".db");
 
                 if (File.Exists(dbDir))
                 {
@@ -114,7 +114,7 @@ namespace Library.Management.Core.Tests
         [Fact]
         public void BookManagement_Should_Return_Book_From_Api()
         {
-            var bookManagement = new BookManagement(_dbManager);
+            var bookManagement = new BookManager(_dbManager);
             bookManagement.AddToCollection(new Author { Name = "Robert C. Martin", ID = Guid.NewGuid()});
 
             var book = bookManagement.GetBookFromApi("9780132350884");
@@ -135,7 +135,7 @@ namespace Library.Management.Core.Tests
         [Fact]
         public void BookManagement_Should_Add_Book_To_DB()
         {
-            var bookManagement = new BookManagement(_dbManager);
+            var bookManagement = new BookManager(_dbManager);
             var book = bookManagement.GetBookFromApi("9780132350884");
 
             bookManagement.AddToCollection(book);
@@ -145,7 +145,7 @@ namespace Library.Management.Core.Tests
         [Fact]
         public void BookManagement_Should_Find_Book_In_DB()
         {
-            var bookManagement = new BookManagement(_dbManager);
+            var bookManagement = new BookManager(_dbManager);
             bookManagement.AddToCollection(new Author { Name = "Robert C. Martin", ID = Guid.NewGuid() });
             var book = bookManagement.GetBookFromApi("9780132350884");
             bookManagement.AddToCollection(book);
@@ -171,7 +171,7 @@ namespace Library.Management.Core.Tests
         [Fact]
         public void BookManagement_Should_Delete_Book_From_DB()
         {
-            var bookManagement = new BookManagement(_dbManager);
+            var bookManagement = new BookManager(_dbManager);
             var book = bookManagement.GetBookFromApi("9780132350884");
             bookManagement.AddToCollection(book);
 
@@ -184,7 +184,7 @@ namespace Library.Management.Core.Tests
         [Fact]
         public void BookManagement_Should_Add_Author_To_DB()
         {
-            var bookManagement = new BookManagement(_dbManager);
+            var bookManagement = new BookManager(_dbManager);
             bookManagement.AddToCollection(_dummyAuthor);
 
             _dbManager.Dispose();
@@ -193,7 +193,7 @@ namespace Library.Management.Core.Tests
         [Fact]
         public void BookManagement_Should_Find_Author_In_DB()
         {
-            var bookManagement = new BookManagement(_dbManager);
+            var bookManagement = new BookManager(_dbManager);
             bookManagement.AddToCollection(_dummyAuthor);
 
             Assert.NotNull(bookManagement.FindAuthor("Name", _dummyAuthor.Name));
@@ -204,7 +204,7 @@ namespace Library.Management.Core.Tests
         [Fact]
         public void BookManagement_Should_Delete_Author_From_DB()
         {
-            var bookManagement = new BookManagement(_dbManager);
+            var bookManagement = new BookManager(_dbManager);
             bookManagement.AddToCollection(_dummyAuthor);
             bookManagement.RemoveFromCollection(_dummyAuthor);
 
@@ -216,7 +216,7 @@ namespace Library.Management.Core.Tests
         [Fact]
         public void BookManagement_Should_Update_Author_In_DB()
         {
-            var bookManagement = new BookManagement(_dbManager);
+            var bookManagement = new BookManager(_dbManager);
             bookManagement.AddToCollection(_dummyAuthor);
             _dummyAuthor.Name = "NewName";
             bookManagement.Update(_dummyAuthor);
@@ -228,7 +228,7 @@ namespace Library.Management.Core.Tests
         [Fact]
         public void BookManagement_Should_Update_Book_In_DB()
         {
-            var bookManagement = new BookManagement(_dbManager);
+            var bookManagement = new BookManager(_dbManager);
             var book = bookManagement.GetBookFromApi("9780132350884");
             bookManagement.AddToCollection(book);
             book.Title = "Modified Title";
@@ -237,6 +237,16 @@ namespace Library.Management.Core.Tests
             Assert.NotNull(bookManagement.FindBook("Title", book.Title));
 
             _dbManager.Dispose();
+        }
+
+        [Fact]
+        public void Test()
+        {
+            var bookManagement = new BookManager(_dbManager);
+            var book = bookManagement.GetBookFromApi("9780132350884");
+            bookManagement.AddToCollection(book);
+            var test = bookManagement.GetAll();
+            Assert.NotNull(book);
         }
 
         private static void ValidateBook(Book book, BookDB bookDb)
