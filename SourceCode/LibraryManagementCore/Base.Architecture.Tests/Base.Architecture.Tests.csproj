@@ -63,6 +63,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="LoggerTests.cs" />
+    <Compile Include="MultilanguageTests.cs" />
     <Compile Include="UserManagementTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -78,6 +79,10 @@
     <ProjectReference Include="..\Base.Architecture.Logger\Base.Architecture.Logger.csproj">
       <Project>{B0E040E3-D40D-4017-94DC-00F59DBD9D80}</Project>
       <Name>Base.Architecture.Logger</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Base.Architecture.Multilanguage\Base.Architecture.Multilanguage.csproj">
+      <Project>{47d1a37b-6e9b-4ca9-b1c9-0ecaeb2feb16}</Project>
+      <Name>Base.Architecture.Multilanguage</Name>
     </ProjectReference>
     <ProjectReference Include="..\UserManagement\Base.Architecture.UserManagement.csproj">
       <Project>{CC19EA3F-4C24-447E-BC87-6D66557A8B5F}</Project>
