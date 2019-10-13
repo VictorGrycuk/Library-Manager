@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Base.Architecture.DatabaseManager;
 using LibraryManagementCore.BookManagement.Api;
@@ -6,12 +7,12 @@ using LibraryManagementCore.BookManagement.Models;
 
 namespace LibraryManagementCore.BookManagement
 {
-    public class BookManagement
+    public class BookManager
     {
         private readonly TableManager<BookDB> _bookCollection;
         private readonly TableManager<Author> _authorCollection;
 
-        public BookManagement(DBManager dbManager)
+        public BookManager(DBManager dbManager)
         {
             _bookCollection = dbManager.NewTableConnection<BookDB>("Book");
             _authorCollection = dbManager.NewTableConnection<Author>();
@@ -63,6 +64,11 @@ namespace LibraryManagementCore.BookManagement
             return _authorCollection.Find(field, value).FirstOrDefault();
         }
 
+        public Author FindAuthor(Guid key)
+        {
+            return _authorCollection.Find(key);
+        }
+
         public void RemoveFromCollection(Book book)
         {
             _bookCollection.Delete(GetDbModel(book));
@@ -81,6 +87,26 @@ namespace LibraryManagementCore.BookManagement
         public void Update(Book book)
         {
             _bookCollection.Update(GetDbModel(book));
+        }
+
+        public List<Book> GetAll()
+        {
+            var dbBooks = _bookCollection.GetAll().ToArray();
+            var books = _bookCollection.GetAll().Select(Mapper.ConvertModel<BookDB, Book>).ToList();
+
+            foreach (var UPPER in books)
+            {
+                var test = new List<Author>();
+                foreach (var book in dbBooks)
+                {
+                    if (UPPER.Isbn == book.Isbn)
+                    {
+                        UPPER.Authors = book.Authors.Select(FindAuthor).ToList();
+                    }
+                }
+            }
+
+            return books;
         }
 
         private BookDB GetDbModel(Book book)

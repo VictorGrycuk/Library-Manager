@@ -1,4 +1,4 @@
-using Base.Architecture.UserManagement;
+﻿using Base.Architecture.UserManagement;
 using System;
 using Base.Architecture.DatabaseManager;
 using Base.Architecture.UserManagement.Models;
@@ -13,12 +13,15 @@ namespace LibraryManagementCore
         public LoggerManager Logger;
         public User LoggedUser;
         public LocalizationManager Localization;
+        public readonly BookManager BookManager;
         private readonly UserManagementCore _userManagement;
 
         public LibraryCore(string connectionString)
         {
             var dbManager = new DBManager(connectionString);
             _userManagement = new UserManagementCore(dbManager);
+            BookManager = new BookManager(dbManager);
+            Localization = new LocalizationManager(dbManager);
         }
 
         public void LogIn(string username, string password)
@@ -26,13 +29,13 @@ namespace LibraryManagementCore
             try
             {
                 // Check if the given password checks against the stored password.
-                _currentUser = _userManagement.LogIn(username, password) ??
-                               throw new Exception("Username or Password invalid");
+                LoggedUser = _userManagement.LogIn(username, password) ??
+                               throw new ArgumentException("Username or Password invalid");
 
                 // Update the last accessed date time
-                _currentUser.LastAccessed = DateTime.Now;
-                _userManagement.UpdateUser(_currentUser);
-                Logger?.Log(LogType.Audit, new LogEntry { Username = _currentUser.Username, Message = "Logged in" });
+                LoggedUser.LastAccessed = DateTime.Now;
+                _userManagement.UpdateUser(LoggedUser);
+                Logger?.Log(LogType.Audit, new LogEntry { Username = LoggedUser.Username, Message = "Logged in" });
             }
             catch (Exception e)
             {
