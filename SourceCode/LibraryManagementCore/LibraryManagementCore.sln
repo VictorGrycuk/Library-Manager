@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Base.Architecture.Logger", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Base.Architecture.Tests", "Base.Architecture.Tests\Base.Architecture.Tests.csproj", "{BC18FAD8-31FA-4806-A80D-379304A86C0C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Base.Architecture.Multilanguage", "Base.Architecture.Multilanguage\Base.Architecture.Multilanguage.csproj", "{47D1A37B-6E9B-4CA9-B1C9-0ECAEB2FEB16}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{BC18FAD8-31FA-4806-A80D-379304A86C0C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BC18FAD8-31FA-4806-A80D-379304A86C0C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BC18FAD8-31FA-4806-A80D-379304A86C0C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{47D1A37B-6E9B-4CA9-B1C9-0ECAEB2FEB16}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{47D1A37B-6E9B-4CA9-B1C9-0ECAEB2FEB16}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{47D1A37B-6E9B-4CA9-B1C9-0ECAEB2FEB16}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{47D1A37B-6E9B-4CA9-B1C9-0ECAEB2FEB16}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
