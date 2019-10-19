@@ -235,6 +235,7 @@
     <Compile Include="BookManagement\Models\Author.cs" />
     <Compile Include="BookManagement\Models\Book.cs" />
     <Compile Include="BookManagement\API\GoogleBookModel.cs" />
+    <Compile Include="LocalConfiguration.cs" />
     <Compile Include="Localization\Localization.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

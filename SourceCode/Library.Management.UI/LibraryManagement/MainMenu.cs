@@ -10,10 +10,10 @@ namespace LibraryManagement
 {
     public partial class MainMenu : DevExpress.XtraBars.Ribbon.RibbonForm
     {
-        private readonly LibraryCore _core;
+        private readonly Core _core;
         private Book _book;
 
-        public MainMenu(LibraryCore libraryCore)
+        public MainMenu(Core libraryCore)
         {
             _core = libraryCore;
 
@@ -69,7 +69,7 @@ namespace LibraryManagement
             if (e.Column.FieldName != "Authors" || !e.IsGetData) return;
             var view = sender as DevExpress.XtraGrid.Views.Grid.GridView;
             var id = (Guid)view?.GetListSourceRowCellValue(e.ListSourceRowIndex, "ID");
-            var author = _core.BookManager.GetAll().First(x => x.ID == id);
+            var author = _core.BookManager.GetAll().First(x => x.Id == id);
             var names = author.Authors.Select(x => x.Name).ToArray();
             e.Value = string.Join(", ", names);
         }

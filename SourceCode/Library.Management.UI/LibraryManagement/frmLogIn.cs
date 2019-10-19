@@ -1,22 +1,53 @@
 ﻿using System;
 using System.Windows.Forms;
 using DevExpress.XtraEditors;
-using LibraryManagementCore;
 using System.IO;
 using DevExpress.XtraEditors.DXErrorProvider;
+using LibraryManagementCore;
 
 namespace LibraryManagement
 {
     public partial class frmLogIn : XtraForm
     {
-        private readonly LibraryCore _library;
+        private readonly Core _library;
         public frmLogIn()
         {
             InitializeComponent();
-            _library = new LibraryCore(Path.Combine(Application.StartupPath, "database.db"));
-            _library.Localization.SetLocalization("es-ar");
+            
+            // We try to load the local configuration
+            var localConfig = LoadLocalConfiguration();
+            if (localConfig == null)
+            {
+                Environment.Exit(-1);
+            }
+
+            _library = new Core(localConfig);
             _library.Localization.RegisterNewControl(btnLogIn);
             _library.Localization.ApplyLocalization();
+        }
+
+        private static LocalConfiguration LoadLocalConfiguration()
+        {
+            var filePath = Path.Combine(Application.StartupPath, "configuration.json");
+            LocalConfiguration config;
+
+            if (File.Exists(filePath))
+            {
+                config = new LocalConfiguration(filePath);
+                if (!string.IsNullOrWhiteSpace(config.ApplicationSettings) &&
+                    !string.IsNullOrWhiteSpace(config.Database)) return config;
+
+                XtraMessageBox.Show("Either the path to the application settings  file or the path to the database file is not set\n" +
+                                    "Make sure the fields are correctly configured.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return null;
+
+            }
+
+            config = new LocalConfiguration() { Localization = "", ApplicationSettings = "", Database = "" };
+            config.SaveToFile(filePath);
+            XtraMessageBox.Show("Local configuration not found\nA blank configuration was created, please configure and re open the application", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+            return null;
         }
 
         private void btnLogIn_Click(object sender, EventArgs e)

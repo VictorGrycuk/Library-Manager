@@ -7,9 +7,9 @@ namespace LibraryManagement
 {
     public partial class frmLanguageConfig : XtraForm
     {
-        private readonly LibraryCore _core;
+        private readonly Core _core;
 
-        public frmLanguageConfig(LibraryCore core)
+        public frmLanguageConfig(Core core)
         {
             _core = core;
             InitializeComponent();
@@ -21,7 +21,7 @@ namespace LibraryManagement
         private void frmLanguageConfig_Load(object sender, EventArgs e)
         {
             var languages = _core.Localization.GetLanguages();
-            languages.ForEach(l => comboAvailableLangauges.Properties.Items.Add(l.LanguageTag));
+            languages.ForEach(l => comboAvailableLangauges.Properties.Items.Add(l));
 
             comboAvailableLangauges.Text = _core.Localization.CurrentLocalization;
         }
@@ -69,14 +69,13 @@ namespace LibraryManagement
             {
                 using (var sf = new SaveFileDialog())
                 {
-                    var language = _core.Localization.GetLanguages().Find(l => l.LanguageTag == comboAvailableLangauges.Text);
-                    sf.FileName = language.LanguageTag;
+                    sf.FileName = comboAvailableLangauges.Text;
                     sf.Filter = "Serialzied Object (*.json)|*.json";
                     sf.DefaultExt = ".json";
                     sf.AddExtension = true;
                     sf.ShowDialog();
 
-                    _core.Localization.Export(language, sf.FileName);
+                    _core.Localization.Export(sf.FileName, comboAvailableLangauges.Text);
                 }
 
                 XtraMessageBox.Show("Localization was exported successfully!", "Notification", MessageBoxButtons.OK, MessageBoxIcon.Information);

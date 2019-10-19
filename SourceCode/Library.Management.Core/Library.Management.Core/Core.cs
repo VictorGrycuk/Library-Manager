@@ -1,5 +1,4 @@
 ﻿using Base.Architecture.DatabaseManager;
-using Base.Architecture.LocalizationManagement;
 using Base.Architecture.LogManagement;
 using Base.Architecture.UserManagement;
 using Base.Architecture.UserManagement.Models;
@@ -12,16 +11,26 @@ namespace LibraryManagementCore
     {
         public LogManager Logger;
         public User LoggedUser;
-        public LocalizationManager Localization;
+        public Localization.Localization Localization;
         public readonly BookManager BookManager;
         private readonly UserManager _userManagement;
 
-        public Core(string connectionString)
+        public Core(LocalConfiguration localConfiguration)
         {
-            var dbManager = new DBManager(connectionString);
-            _userManagement = new UserManager(dbManager);
-            BookManager = new BookManager(dbManager);
-            Localization = new LocalizationManager(dbManager);
+            // Load and setups the db with the application settings
+            var configurationDB = new DBManager(localConfiguration.ApplicationSettings);
+            Localization = new Localization.Localization(configurationDB);
+
+            // Load and setups the db with the business data
+            var businessDB = new DBManager(localConfiguration.Database);
+            _userManagement = new UserManager(businessDB);
+            BookManager = new BookManager(businessDB);
+
+            // Tries to load the last used localization
+            if (!string.IsNullOrWhiteSpace(localConfiguration.Localization))
+            {
+                Localization.SetLocalization(localConfiguration.Localization);
+            }
         }
 
         public void LogIn(string username, string password)
