@@ -27,10 +27,9 @@ namespace LibraryManagementCore
             BookManager = new BookManager(businessDB);
 
             // Tries to load the last used localization
-            if (!string.IsNullOrWhiteSpace(localConfiguration.Localization))
-            {
-                Localization.SetLocalization(localConfiguration.Localization);
-            }
+            Localization.SetLocalization(!string.IsNullOrWhiteSpace(localConfiguration.Localization)
+                ? localConfiguration.Localization
+                : "en-us");
         }
 
         public void LogIn(string username, string password)

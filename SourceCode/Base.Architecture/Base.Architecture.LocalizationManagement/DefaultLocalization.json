@@ -1,0 +1,17 @@
+{
+  "Id": "cfd76ecf-0666-42c8-a3f8-f6d08916f554",
+  "LanguageTag": "en-us",
+  "Controls": {
+    "btnLogIn": "Log In",
+    "btnAddNewBook": "Add New Book",
+    "lblLoggedAs": "You are logged in as <b>{0}</b>",
+    "btnBookCollection": "Book Collection",
+    "layoutBookTitle": "Book Title",
+    "pageBookManagement": "Book Management",
+    "pageMembersManagement": "Members Management",
+    "pageReservationManagement": "Reservation Management",
+    "ribbonMainMenu": "Main Menu",
+    "ribbonConfiguration": "Configuration",
+    "pageLocalization": "Localization"
+  }
+}
