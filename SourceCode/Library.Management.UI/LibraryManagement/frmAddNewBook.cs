@@ -6,7 +6,6 @@ using DevExpress.XtraEditors;
 using DevExpress.XtraLayout;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 using System.Drawing;
 using System.IO;
 
@@ -16,6 +15,8 @@ namespace LibraryManagement
     {
         private Book _book;
         private readonly Core _core;
+        private byte[] _customCover = new byte[0];
+        private readonly Image _defaultCover;
 
         public frmAddNewBook(Core core)
         {
@@ -25,6 +26,8 @@ namespace LibraryManagement
             _core.Localization.RegisterNewControl(btnSaveNewBook);
             _core.Localization.RegisterNewControl(btnClearNewBookFields);
             _core.Localization.ApplyLocalization();
+
+            _defaultCover = pictureCover.Image;
         }
 
         private void SetBookProperties()
@@ -39,7 +42,8 @@ namespace LibraryManagement
                 MaturityRating = txtMaturity.Text,
                 Language = txtLanguage.Text,
                 Description = txtDescription.Text,
-                PublishedDate = datePublishedDate.DateTime
+                PublishedDate = datePublishedDate.DateTime,
+                Cover = _customCover
             };
 
             foreach (var listAuthorsItem in listAuthors.Items)
@@ -77,6 +81,7 @@ namespace LibraryManagement
                 if (edit != null) edit.Text = string.Empty;
             }
             listAuthors.Items.Clear();
+            pictureCover.Image = _defaultCover;
         }
 
         private bool ValidateFields()
@@ -122,17 +127,43 @@ namespace LibraryManagement
 
         private static Bitmap ByteToImage(byte[] image)
         {
-            MemoryStream mStream = new MemoryStream();
-            byte[] pData = image;
+            var mStream = new MemoryStream();
+            var pData = image;
             mStream.Write(pData, 0, Convert.ToInt32(pData.Length));
-            Bitmap bm = new Bitmap(mStream, false);
+            var bm = new Bitmap(mStream, false);
             mStream.Dispose();
             return bm;
         }
 
         private void frmAddNewBook_Load(object sender, EventArgs e)
         {
-            
+            pictureCover.AllowDrop = true;
+            pictureCover.DragEnter += DragEnter;
+            pictureCover.DragDrop += DragDrop;
+        }
+
+        private void DragEnter(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop)) e.Effect = DragDropEffects.Copy;
+        }
+
+        private void DragDrop(object sender, DragEventArgs e)
+        {
+            var files = (string[])e.Data.GetData(DataFormats.FileDrop);
+            if (!File.Exists(files[0])) return;
+
+            try
+            {
+                var img = new Bitmap(files[0]);
+                pictureCover.Image?.Dispose();
+                pictureCover.Image = img;
+
+                _customCover = (byte[])new ImageConverter().ConvertTo(img, typeof(byte[]));
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show(ex.Message, "Could not load the image file", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void btnSaveNewBook_Click(object sender, EventArgs e)
