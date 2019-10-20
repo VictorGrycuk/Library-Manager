@@ -80,6 +80,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="frmAddNewBook.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmAddNewBook.Designer.cs">
+      <DependentUpon>frmAddNewBook.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmLanguageConfig.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -106,6 +112,9 @@
     <Compile Include="Splash.Designer.cs">
       <DependentUpon>Splash.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="frmAddNewBook.resx">
+      <DependentUpon>frmAddNewBook.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmLanguageConfig.resx">
       <DependentUpon>frmLanguageConfig.cs</DependentUpon>
     </EmbeddedResource>
