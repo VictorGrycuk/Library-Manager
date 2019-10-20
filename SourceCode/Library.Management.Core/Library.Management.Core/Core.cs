@@ -13,7 +13,7 @@ namespace LibraryManagementCore
         public User LoggedUser;
         public Localization.Localization Localization;
         public readonly BookManager BookManager;
-        private readonly UserManager _userManagement;
+        public readonly UserManager UserManagement;
 
         public Core(LocalConfiguration localConfiguration)
         {
@@ -23,7 +23,7 @@ namespace LibraryManagementCore
 
             // Load and setups the db with the business data
             var businessDB = new DBManager(localConfiguration.Database);
-            _userManagement = new UserManager(businessDB);
+            UserManagement = new UserManager(businessDB);
             BookManager = new BookManager(businessDB);
 
             // Tries to load the last used localization
@@ -37,12 +37,12 @@ namespace LibraryManagementCore
             try
             {
                 // Check if the given password checks against the stored password.
-                LoggedUser = _userManagement.LogIn(username, password) ??
+                LoggedUser = UserManagement.LogIn(username, password) ??
                                throw new ArgumentException("Username or Password invalid");
 
                 // Update the last accessed date time
                 LoggedUser.LastAccessed = DateTime.Now;
-                _userManagement.UpdateUser(LoggedUser);
+                UserManagement.UpdateUser(LoggedUser);
                 Logger?.Log(LogType.Audit, new LogEntry { Username = LoggedUser.Username, Message = "Logged in" });
             }
             catch (Exception e)
