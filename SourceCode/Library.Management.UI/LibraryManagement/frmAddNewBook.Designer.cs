@@ -55,7 +55,7 @@
             this.layoutControlItem2 = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlItem3 = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlItem9 = new DevExpress.XtraLayout.LayoutControlItem();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.pictureCover = new System.Windows.Forms.PictureBox();
             this.tableAddNewBook = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.btnReadFromCamera = new DevExpress.XtraEditors.SimpleButton();
@@ -87,7 +87,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem9)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureCover)).BeginInit();
             this.tableAddNewBook.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.datePublishedDate.Properties.CalendarTimeProperties)).BeginInit();
@@ -127,6 +127,7 @@
             this.btnModify.StyleController = this.layoutControl1;
             this.btnModify.TabIndex = 5;
             this.btnModify.Text = "Modify";
+            this.btnModify.Click += new System.EventHandler(this.btnModify_Click);
             // 
             // btnRemove
             // 
@@ -146,6 +147,7 @@
             this.btnAdd.StyleController = this.layoutControl1;
             this.btnAdd.TabIndex = 4;
             this.btnAdd.Text = "Add";
+            this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
             // 
             // txtDescription
             // 
@@ -367,23 +369,23 @@
             this.layoutControlItem9.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem9.TextVisible = false;
             // 
-            // pictureBox1
+            // pictureCover
             // 
-            this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(382, 3);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(184, 339);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox1.TabIndex = 4;
-            this.pictureBox1.TabStop = false;
+            this.pictureCover.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pictureCover.Image = ((System.Drawing.Image)(resources.GetObject("pictureCover.Image")));
+            this.pictureCover.Location = new System.Drawing.Point(382, 3);
+            this.pictureCover.Name = "pictureCover";
+            this.pictureCover.Size = new System.Drawing.Size(184, 339);
+            this.pictureCover.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureCover.TabIndex = 4;
+            this.pictureCover.TabStop = false;
             // 
             // tableAddNewBook
             // 
             this.tableAddNewBook.ColumnCount = 2;
             this.tableAddNewBook.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableAddNewBook.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableAddNewBook.Controls.Add(this.pictureBox1, 1, 0);
+            this.tableAddNewBook.Controls.Add(this.pictureCover, 1, 0);
             this.tableAddNewBook.Controls.Add(this.layoutControl1, 0, 0);
             this.tableAddNewBook.Controls.Add(this.tableLayoutPanel1, 0, 1);
             this.tableAddNewBook.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -496,7 +498,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem9)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureCover)).EndInit();
             this.tableAddNewBook.ResumeLayout(false);
             this.tableAddNewBook.PerformLayout();
             this.tableLayoutPanel1.ResumeLayout(false);
@@ -535,7 +537,7 @@
         private DevExpress.XtraLayout.LayoutControlItem layoutControlItem2;
         private DevExpress.XtraLayout.LayoutControlItem layoutControlItem3;
         private DevExpress.XtraLayout.LayoutControlItem layoutControlItem9;
-        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.PictureBox pictureCover;
         private System.Windows.Forms.TableLayoutPanel tableAddNewBook;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private DevExpress.XtraEditors.SimpleButton btnSaveNewBook;

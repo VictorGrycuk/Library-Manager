@@ -7,6 +7,8 @@ using DevExpress.XtraLayout;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Drawing;
+using System.IO;
 
 namespace LibraryManagement
 {
@@ -58,10 +60,13 @@ namespace LibraryManagement
             txtDescription.Text = _book.Description;
             datePublishedDate.DateTime = _book.PublishedDate;
 
+            listAuthors.Items.Clear();
             foreach (var author in _book.Authors)
             {
                 listAuthors.Items.Add(author.Name);
             }
+
+            pictureCover.Image = ByteToImage(_book.Cover);
         }
 
         private void ClearFields()
@@ -71,6 +76,7 @@ namespace LibraryManagement
                 var edit = (control as LayoutControlItem)?.Control as TextEdit;
                 if (edit != null) edit.Text = string.Empty;
             }
+            listAuthors.Items.Clear();
         }
 
         private bool ValidateFields()
@@ -102,9 +108,26 @@ namespace LibraryManagement
 
         private void txtISBN_Properties_ButtonClick(object sender, DevExpress.XtraEditors.Controls.ButtonPressedEventArgs e)
         {
-            if(string.IsNullOrWhiteSpace((sender as TextEdit)?.Text)) return;
-            _book = _core.BookManager.GetBookFromApi(txtISBN.Text);
-            SetFieldsValues();
+            try
+            {
+                if(string.IsNullOrWhiteSpace((sender as TextEdit)?.Text)) return;
+                _book = _core.BookManager.GetBookFromApi(txtISBN.Text);
+                SetFieldsValues();
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show(ex.Message, "Warning", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private static Bitmap ByteToImage(byte[] image)
+        {
+            MemoryStream mStream = new MemoryStream();
+            byte[] pData = image;
+            mStream.Write(pData, 0, Convert.ToInt32(pData.Length));
+            Bitmap bm = new Bitmap(mStream, false);
+            mStream.Dispose();
+            return bm;
         }
 
         private void frmAddNewBook_Load(object sender, EventArgs e)
@@ -153,6 +176,36 @@ namespace LibraryManagement
             if (listAuthors.SelectedIndex >= 0)
             {
                 listAuthors.Items.RemoveAt(listAuthors.SelectedIndex);
+            }
+        }
+
+        private void btnAdd_Click(object sender, EventArgs e)
+        {
+            using (var frmAuthor = new frmEditAuthor(_core))
+            {
+                var result = frmAuthor.ShowDialog();
+                if (result == DialogResult.OK)
+                {
+                    listAuthors.Items.Add(frmAuthor.Author);
+                }
+            }
+        }
+
+        private void btnModify_Click(object sender, EventArgs e)
+        {
+            if (listAuthors.SelectedIndex < 0)
+            {
+                return;
+            }
+
+            using (var frmAuthor = new frmEditAuthor(_core))
+            {
+                frmAuthor.Author = listAuthors.Items[listAuthors.SelectedIndex].ToString();
+                var result = frmAuthor.ShowDialog();
+                if (result == DialogResult.OK)
+                {
+                    listAuthors.Items.Add(frmAuthor.Author);
+                }
             }
         }
     }

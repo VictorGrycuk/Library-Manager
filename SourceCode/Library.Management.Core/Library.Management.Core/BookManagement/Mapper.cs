@@ -52,8 +52,8 @@ namespace LibraryManagementCore.BookManagement
                     .ForMember(dest => dest.Isbn, o => o.MapFrom(sou => sou.industryIdentifiers[0].identifier))
                     .ForMember(destination => destination.Authors,
                         o => o.MapFrom(source => source.authors.Select(author => new Author {Name = author}).ToList()))
-                    .ForMember(dest => dest.Id, o => o.MapFrom(sou => Guid.NewGuid()));
-                //.ForMember(dest => dest.Image, o => o.MapFrom(sou => GetImage(sou.imageLinks.thumbnail)));
+                    .ForMember(dest => dest.Id, o => o.MapFrom(sou => Guid.NewGuid()))
+                    .ForMember(dest => dest.Cover, o => o.MapFrom(sou => GetImageByteArray(sou.imageLinks.thumbnail)));
             }).CreateMapper();
         }
 
@@ -82,11 +82,16 @@ namespace LibraryManagementCore.BookManagement
             }).CreateMapper();
         }
 
-        private static Image GetImage(string url)
+        private static byte[] GetImageByteArray(string url)
         {
-            var webClient = new WebClient();
-            var content = webClient.DownloadData(url.Replace("zoom=1", "zoom=2"));
-            return Image.FromStream(new MemoryStream(content));
+            byte[] image;
+            using (var webClient = new WebClient())
+            {
+                image = webClient.DownloadData(url.Replace("zoom=1", "zoom=2")
+                    .Replace("&source=gbs_api", string.Empty));
+            }
+
+            return image;
         }
     }
 }
