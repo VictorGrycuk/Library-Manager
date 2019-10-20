@@ -48,13 +48,20 @@ namespace LibraryManagementCore.BookManagement
             {
                 configuration.CreateMap<GoogleBookModel, Book>()
                     .ForMember(dest => dest.PublishedDate,
-                        o => o.MapFrom(sou => new DateTime(int.Parse(sou.publishedDate), 1, 1)))
+                        o => o.MapFrom(sou => ParseDateTime(sou.publishedDate)))
                     .ForMember(dest => dest.Isbn, o => o.MapFrom(sou => sou.industryIdentifiers[0].identifier))
                     .ForMember(destination => destination.Authors,
                         o => o.MapFrom(source => source.authors.Select(author => new Author {Name = author}).ToList()))
                     .ForMember(dest => dest.Id, o => o.MapFrom(sou => Guid.NewGuid()));
                 //.ForMember(dest => dest.Image, o => o.MapFrom(sou => GetImage(sou.imageLinks.thumbnail)));
             }).CreateMapper();
+        }
+
+        private static DateTime ParseDateTime(string strDate)
+        {
+            return DateTime.TryParse(strDate, out var datetime)
+                ? datetime
+                : new DateTime(int.Parse(strDate), 1, 1);
         }
 
         private static IMapper GetBookDbMapper()
