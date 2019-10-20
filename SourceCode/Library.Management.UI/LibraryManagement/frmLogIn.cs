@@ -58,9 +58,14 @@ namespace LibraryManagement
                 CheckControls(txtPassword);
 
                 _library.LogIn(txtUserName.Text, txtPassword.Text);
-                var mainMenu = new MainMenu(_library);
-                Hide();
-                mainMenu.Show();
+
+                using (var mainMenu = new MainMenu(_library))
+                {
+                    Hide();
+                    mainMenu.ShowDialog();
+                }
+
+                Show();
             }
             catch (ArgumentException exception)
             {
