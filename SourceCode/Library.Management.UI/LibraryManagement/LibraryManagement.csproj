@@ -98,6 +98,12 @@
     <Compile Include="frmLanguageConfig.Designer.cs">
       <DependentUpon>frmLanguageConfig.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmUserForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmUserForm.Designer.cs">
+      <DependentUpon>frmUserForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="MainMenu.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -129,6 +135,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmLogIn.resx">
       <DependentUpon>frmLogIn.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmUserForm.resx">
+      <DependentUpon>frmUserForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainMenu.resx">
       <DependentUpon>MainMenu.cs</DependentUpon>

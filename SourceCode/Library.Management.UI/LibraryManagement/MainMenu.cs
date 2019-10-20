@@ -61,5 +61,13 @@ namespace LibraryManagement
                 frm.ShowDialog();
             }
         }
+
+        private void btnAddNewUser_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            using (var frm = new frmUserForm(_core))
+            {
+                frm.ShowDialog();
+            }
+        }
     }
 }

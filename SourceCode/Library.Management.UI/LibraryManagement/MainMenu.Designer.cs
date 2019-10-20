@@ -36,12 +36,14 @@
             this.btnAddNewBook = new DevExpress.XtraBars.BarButtonItem();
             this.btnBookCollection = new DevExpress.XtraBars.BarButtonItem();
             this.btnLanguageConfiguration = new DevExpress.XtraBars.BarButtonItem();
+            this.btnAddNewUser = new DevExpress.XtraBars.BarButtonItem();
             this.ribbonMainMenu = new DevExpress.XtraBars.Ribbon.RibbonPage();
             this.pageBookManagement = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.pageMembersManagement = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.pageReservationManagement = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.ribbonConfiguration = new DevExpress.XtraBars.Ribbon.RibbonPage();
             this.pageLocalization = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
+            this.pageUserManagement = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.ribbonStatusBar = new DevExpress.XtraBars.Ribbon.RibbonStatusBar();
             this.dockManager = new DevExpress.XtraBars.Docking.DockManager(this.components);
             this.dockBookSearch = new DevExpress.XtraBars.Docking.DockPanel();
@@ -68,9 +70,10 @@
             this.lblLoggedAs,
             this.btnAddNewBook,
             this.btnBookCollection,
-            this.btnLanguageConfiguration});
+            this.btnLanguageConfiguration,
+            this.btnAddNewUser});
             this.ribbon.Location = new System.Drawing.Point(0, 0);
-            this.ribbon.MaxItemId = 7;
+            this.ribbon.MaxItemId = 8;
             this.ribbon.Name = "ribbon";
             this.ribbon.Pages.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPage[] {
             this.ribbonMainMenu,
@@ -110,6 +113,14 @@
             this.btnLanguageConfiguration.Name = "btnLanguageConfiguration";
             this.btnLanguageConfiguration.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.btnLanguageConfiguration_ItemClick);
             // 
+            // btnAddNewUser
+            // 
+            this.btnAddNewUser.Caption = "Add New User";
+            this.btnAddNewUser.Id = 7;
+            this.btnAddNewUser.LargeGlyph = ((System.Drawing.Image)(resources.GetObject("btnAddNewUser.LargeGlyph")));
+            this.btnAddNewUser.Name = "btnAddNewUser";
+            this.btnAddNewUser.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.btnAddNewUser_ItemClick);
+            // 
             // ribbonMainMenu
             // 
             this.ribbonMainMenu.Groups.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPageGroup[] {
@@ -139,7 +150,8 @@
             // ribbonConfiguration
             // 
             this.ribbonConfiguration.Groups.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPageGroup[] {
-            this.pageLocalization});
+            this.pageLocalization,
+            this.pageUserManagement});
             this.ribbonConfiguration.Name = "ribbonConfiguration";
             this.ribbonConfiguration.Text = "Configuration";
             // 
@@ -148,6 +160,12 @@
             this.pageLocalization.ItemLinks.Add(this.btnLanguageConfiguration);
             this.pageLocalization.Name = "pageLocalization";
             this.pageLocalization.Text = "Localization";
+            // 
+            // pageUserManagement
+            // 
+            this.pageUserManagement.ItemLinks.Add(this.btnAddNewUser);
+            this.pageUserManagement.Name = "pageUserManagement";
+            this.pageUserManagement.Text = "User Management";
             // 
             // ribbonStatusBar
             // 
@@ -258,5 +276,7 @@
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup pageLocalization;
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup pageMembersManagement;
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup pageReservationManagement;
+        private DevExpress.XtraBars.BarButtonItem btnAddNewUser;
+        private DevExpress.XtraBars.Ribbon.RibbonPageGroup pageUserManagement;
     }
 }
