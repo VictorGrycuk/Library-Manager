@@ -3,8 +3,6 @@ using System.Windows.Forms;
 using LibraryManagementCore.BookManagement.Models;
 using LibraryManagementCore;
 using DevExpress.XtraEditors;
-using DevExpress.XtraLayout;
-using System.Collections.Generic;
 using System.Globalization;
 using System.Drawing;
 using System.IO;
@@ -75,39 +73,24 @@ namespace LibraryManagement
 
         private void ClearFields()
         {
-            foreach (var control in layoutControlGroup1.Items)
-            {
-                var edit = (control as LayoutControlItem)?.Control as TextEdit;
-                if (edit != null) edit.Text = string.Empty;
-            }
+            Helpers.ClearLayoutControls(layoutControlGroup1);
             listAuthors.Items.Clear();
             pictureCover.Image = _defaultCover;
         }
 
         private bool ValidateFields()
         {
-            var emptyControlList = new List<string>();
-            foreach (var control in layoutControlGroup1.Items)
+            try
             {
-                var edit = (control as LayoutControlItem)?.Control as TextEdit;
-                if (edit != null && string.IsNullOrWhiteSpace(edit.Text)) emptyControlList.Add((control as LayoutControlItem).CustomizationFormText);
+                Helpers.ValidateLayoutControls(layoutControlGroup1);
             }
-
-            if (listAuthors.Items.Count == 0)
+            catch (Exception ex)
             {
-                emptyControlList.Add("Author/s");
+                XtraMessageBox.Show(ex.Message,
+                    "Warning",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Hand);
             }
-
-            if (emptyControlList.Count == 0)
-            {
-                return true;
-            }
-
-            XtraMessageBox.Show("The following controls can not be empty:\n\n" + string.Join("\n", emptyControlList.ToArray()),
-                "Warning",
-                MessageBoxButtons.OK,
-                MessageBoxIcon.Hand);
-
             return false;
         }
 

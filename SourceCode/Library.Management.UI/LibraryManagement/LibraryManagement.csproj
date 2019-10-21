@@ -104,6 +104,7 @@
     <Compile Include="frmUserForm.Designer.cs">
       <DependentUpon>frmUserForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Helpers.cs" />
     <Compile Include="MainMenu.cs">
       <SubType>Form</SubType>
     </Compile>
