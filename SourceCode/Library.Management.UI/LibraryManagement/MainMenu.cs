@@ -2,6 +2,7 @@
 using System.Linq;
 using DevExpress.Data;
 using DevExpress.XtraBars;
+using DevExpress.XtraBars.Ribbon.Gallery;
 using LibraryManagementCore;
 
 namespace LibraryManagement
@@ -17,6 +18,11 @@ namespace LibraryManagement
             InitializeComponent();
 
             // Localization Configuration
+            if (_core.LoggedUser.Configuration?.Language != null)
+            {
+                _core.Localization.SetLocalization(_core.Localization.CurrentLocalization);
+            }
+
             _core.Localization.RegisterNewControl(btnAddNewBook);
             _core.Localization.RegisterNewControl(btnBookCollection);
             _core.Localization.RegisterNewControl(pageBookManagement);
@@ -24,6 +30,9 @@ namespace LibraryManagement
             _core.Localization.ApplyLocalization();
 
             lblLoggedAs.Caption = lblLoggedAs.Caption.Replace("{0}", _core.LoggedUser.Username);
+
+            // We get the system skin
+            lookAndFeel.LookAndFeel.SetSkinStyle(_core.LoggedUser.Configuration?.Theme);
 
             // Add the custom column 'Authors'
             gridBookTable.DataSource = _core.BookManager.GetAll();
@@ -68,6 +77,17 @@ namespace LibraryManagement
             {
                 frm.ShowDialog();
             }
+        }
+
+        private void skinRibbonGallery_GalleryItemClick(object sender, DevExpress.XtraBars.Ribbon.GalleryItemClickEventArgs e)
+        {
+            
+        }
+
+        private void skinRibbonGallery_Gallery_ItemClick(object sender, DevExpress.XtraBars.Ribbon.GalleryItemClickEventArgs e)
+        {
+            _core.LoggedUser.Configuration.Theme = e.Item.Tag.ToString();
+            _core.UserManagement.UpdateUser(_core.LoggedUser);
         }
     }
 }

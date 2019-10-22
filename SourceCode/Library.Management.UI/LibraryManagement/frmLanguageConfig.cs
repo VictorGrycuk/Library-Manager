@@ -32,6 +32,8 @@ namespace LibraryManagement
             {
                 _core.Localization.SetLocalization(comboAvailableLangauges.Text);
                 _core.Localization.ApplyLocalization();
+                _core.LoggedUser.Configuration.Language = _core.Localization.CurrentLocalization;
+                _core.UserManagement.UpdateUser(_core.LoggedUser);
                 XtraMessageBox.Show("Localization set successfully!", "Notification", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
@@ -73,12 +75,15 @@ namespace LibraryManagement
                     sf.Filter = "Serialzied Object (*.json)|*.json";
                     sf.DefaultExt = ".json";
                     sf.AddExtension = true;
-                    sf.ShowDialog();
 
-                    _core.Localization.Export(sf.FileName, comboAvailableLangauges.Text);
+                    if (sf.ShowDialog() == DialogResult.OK)
+                    {
+                        _core.Localization.Export(sf.FileName, comboAvailableLangauges.Text);
+                        XtraMessageBox.Show("Localization was exported successfully!", "Notification", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+
                 }
 
-                XtraMessageBox.Show("Localization was exported successfully!", "Notification", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
