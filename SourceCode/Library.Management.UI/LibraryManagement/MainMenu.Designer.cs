@@ -32,7 +32,6 @@
             DevExpress.XtraSplashScreen.SplashScreenManager splashManager = new DevExpress.XtraSplashScreen.SplashScreenManager(this, typeof(global::LibraryManagement.Splash), true, false);
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainMenu));
             this.ribbon = new DevExpress.XtraBars.Ribbon.RibbonControl();
-            this.lblLoggedAs = new DevExpress.XtraBars.BarStaticItem();
             this.btnAddNewBook = new DevExpress.XtraBars.BarButtonItem();
             this.btnBookCollection = new DevExpress.XtraBars.BarButtonItem();
             this.btnLanguageConfiguration = new DevExpress.XtraBars.BarButtonItem();
@@ -44,6 +43,7 @@
             this.pageReservationManagement = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.ribbonConfiguration = new DevExpress.XtraBars.Ribbon.RibbonPage();
             this.pageUserManagement = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
+            this.pageDatabaseManagement = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.pageLocalization = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.ribbonStatusBar = new DevExpress.XtraBars.Ribbon.RibbonStatusBar();
             this.dockManager = new DevExpress.XtraBars.Docking.DockManager(this.components);
@@ -52,6 +52,9 @@
             this.gridBookTable = new DevExpress.XtraGrid.GridControl();
             this.gridView1 = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.lookAndFeel = new DevExpress.LookAndFeel.DefaultLookAndFeel(this.components);
+            this.barButtonItem1 = new DevExpress.XtraBars.BarButtonItem();
+            this.btnExportDB = new DevExpress.XtraBars.BarButtonItem();
+            this.lblLoggedAs = new DevExpress.XtraBars.BarStaticItem();
             ((System.ComponentModel.ISupportInitialize)(this.ribbon)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dockManager)).BeginInit();
             this.dockBookSearch.SuspendLayout();
@@ -69,14 +72,15 @@
             this.ribbon.ExpandCollapseItem.Id = 0;
             this.ribbon.Items.AddRange(new DevExpress.XtraBars.BarItem[] {
             this.ribbon.ExpandCollapseItem,
-            this.lblLoggedAs,
             this.btnAddNewBook,
             this.btnBookCollection,
             this.btnLanguageConfiguration,
             this.btnAddNewUser,
-            this.skinRibbonGallery});
+            this.skinRibbonGallery,
+            this.btnExportDB,
+            this.lblLoggedAs});
             this.ribbon.Location = new System.Drawing.Point(0, 0);
-            this.ribbon.MaxItemId = 9;
+            this.ribbon.MaxItemId = 12;
             this.ribbon.Name = "ribbon";
             this.ribbon.Pages.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPage[] {
             this.ribbonMainMenu,
@@ -84,14 +88,6 @@
             this.ribbon.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonControlStyle.Office2013;
             this.ribbon.Size = new System.Drawing.Size(790, 143);
             this.ribbon.StatusBar = this.ribbonStatusBar;
-            // 
-            // lblLoggedAs
-            // 
-            this.lblLoggedAs.AllowHtmlText = DevExpress.Utils.DefaultBoolean.True;
-            this.lblLoggedAs.Caption = "barStaticItem1";
-            this.lblLoggedAs.Id = 1;
-            this.lblLoggedAs.Name = "lblLoggedAs";
-            this.lblLoggedAs.TextAlignment = System.Drawing.StringAlignment.Near;
             // 
             // btnAddNewBook
             // 
@@ -165,6 +161,7 @@
             // 
             this.ribbonConfiguration.Groups.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPageGroup[] {
             this.pageUserManagement,
+            this.pageDatabaseManagement,
             this.pageLocalization});
             this.ribbonConfiguration.Name = "ribbonConfiguration";
             this.ribbonConfiguration.Text = "Configuration";
@@ -174,6 +171,12 @@
             this.pageUserManagement.ItemLinks.Add(this.btnAddNewUser);
             this.pageUserManagement.Name = "pageUserManagement";
             this.pageUserManagement.Text = "User Management";
+            // 
+            // pageDatabaseManagement
+            // 
+            this.pageDatabaseManagement.ItemLinks.Add(this.btnExportDB);
+            this.pageDatabaseManagement.Name = "pageDatabaseManagement";
+            this.pageDatabaseManagement.Text = "Database Management";
             // 
             // pageLocalization
             // 
@@ -248,6 +251,27 @@
             this.gridView1.Name = "gridView1";
             this.gridView1.CustomUnboundColumnData += new DevExpress.XtraGrid.Views.Base.CustomColumnDataEventHandler(this.gridView1_CustomUnboundColumnData);
             // 
+            // barButtonItem1
+            // 
+            this.barButtonItem1.Id = -1;
+            this.barButtonItem1.Name = "barButtonItem1";
+            // 
+            // btnExportDB
+            // 
+            this.btnExportDB.Caption = "Export Database";
+            this.btnExportDB.Glyph = ((System.Drawing.Image)(resources.GetObject("btnExportDB.Glyph")));
+            this.btnExportDB.Id = 10;
+            this.btnExportDB.LargeGlyph = ((System.Drawing.Image)(resources.GetObject("btnExportDB.LargeGlyph")));
+            this.btnExportDB.Name = "btnExportDB";
+            this.btnExportDB.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.btnExportDB_ItemClick);
+            // 
+            // lblLoggedAs
+            // 
+            this.lblLoggedAs.Caption = "barStaticItem1";
+            this.lblLoggedAs.Id = 11;
+            this.lblLoggedAs.Name = "lblLoggedAs";
+            this.lblLoggedAs.TextAlignment = System.Drawing.StringAlignment.Near;
+            // 
             // MainMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -278,7 +302,6 @@
         private DevExpress.XtraBars.Ribbon.RibbonPage ribbonMainMenu;
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup pageBookManagement;
         private DevExpress.XtraBars.Ribbon.RibbonStatusBar ribbonStatusBar;
-        private DevExpress.XtraBars.BarStaticItem lblLoggedAs;
         private DevExpress.XtraBars.BarButtonItem btnAddNewBook;
         private DevExpress.XtraBars.Ribbon.RibbonPage ribbonConfiguration;
         private DevExpress.XtraBars.BarButtonItem btnBookCollection;
@@ -295,5 +318,9 @@
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup pageUserManagement;
         private DevExpress.XtraBars.SkinRibbonGalleryBarItem skinRibbonGallery;
         private DevExpress.LookAndFeel.DefaultLookAndFeel lookAndFeel;
+        private DevExpress.XtraBars.Ribbon.RibbonPageGroup pageDatabaseManagement;
+        private DevExpress.XtraBars.BarButtonItem barButtonItem1;
+        private DevExpress.XtraBars.BarButtonItem btnExportDB;
+        private DevExpress.XtraBars.BarStaticItem lblLoggedAs;
     }
 }

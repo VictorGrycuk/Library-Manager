@@ -1,9 +1,11 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
+using System.Windows.Forms;
 using DevExpress.Data;
 using DevExpress.XtraBars;
-using DevExpress.XtraBars.Ribbon.Gallery;
 using LibraryManagementCore;
+using DevExpress.XtraEditors;
 
 namespace LibraryManagement
 {
@@ -88,6 +90,30 @@ namespace LibraryManagement
         {
             _core.LoggedUser.Configuration.Theme = e.Item.Tag.ToString();
             _core.UserManagement.UpdateUser(_core.LoggedUser);
+        }
+
+        private void btnExportDB_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            try
+            {
+                using (var sf = new SaveFileDialog())
+                {
+                    sf.FileName = DateTime.Now.ToString("yyyyMMdd-HHmmss");
+                    sf.Filter = "Database Object (*.db)|*.db";
+                    sf.DefaultExt = ".json";
+                    sf.AddExtension = true;
+
+                    if (sf.ShowDialog() == DialogResult.OK)
+                    {
+                        File.Copy(Helpers.LoadLocalConfiguration().Database, sf.FileName);
+                        XtraMessageBox.Show("The database was exported successfully!", "Notification", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show("Something went wrong!\n" + ex.Message, "Notification", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }

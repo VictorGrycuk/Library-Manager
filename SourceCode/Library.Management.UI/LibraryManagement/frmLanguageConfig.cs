@@ -89,7 +89,6 @@ namespace LibraryManagement
             {
                 XtraMessageBox.Show("Something went wrong!\n" + ex.Message, "Notification", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            
         }
     }
 }

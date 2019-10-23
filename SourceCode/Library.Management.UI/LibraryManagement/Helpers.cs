@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
+using System.Windows.Forms;
 using DevExpress.XtraEditors;
 using DevExpress.XtraLayout;
+using LibraryManagementCore;
 
 namespace LibraryManagement
 {
@@ -56,6 +56,30 @@ namespace LibraryManagement
                 var list = (item as LayoutControlItem)?.Control as ListBoxControl;
                 if (list != null && list.ItemCount == 0) emptyControls.Add((item as LayoutControlItem).CustomizationFormText);
             }
+        }
+
+        public static LocalConfiguration LoadLocalConfiguration()
+        {
+            var filePath = Path.Combine(Application.StartupPath, "configuration.json");
+            LocalConfiguration config;
+
+            if (File.Exists(filePath))
+            {
+                config = new LocalConfiguration(filePath);
+                if (!string.IsNullOrWhiteSpace(config.ApplicationSettings) &&
+                    !string.IsNullOrWhiteSpace(config.Database)) return config;
+
+                XtraMessageBox.Show("Either the path to the application settings  file or the path to the database file is not set\n" +
+                                    "Make sure the fields are correctly configured.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return null;
+
+            }
+
+            config = new LocalConfiguration() { Localization = "", ApplicationSettings = "", Database = "" };
+            config.SaveToFile(filePath);
+            XtraMessageBox.Show("Local configuration not found\nA blank configuration was created, please configure and re open the application", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+            return null;
         }
     }
 }
