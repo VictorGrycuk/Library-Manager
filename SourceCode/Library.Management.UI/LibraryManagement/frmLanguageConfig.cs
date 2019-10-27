@@ -7,21 +7,23 @@ namespace LibraryManagement
 {
     public partial class frmLanguageConfig : XtraForm
     {
-        private readonly LibraryCore _core;
+        private readonly Core _core;
 
-        public frmLanguageConfig(LibraryCore core)
+        public frmLanguageConfig(Core core)
         {
             _core = core;
             InitializeComponent();
 
-            _core.Localization.RegisterNewControl(btnApplyLanguage);
+            _core.Localization.RegisterNewControl(btnApplyLocalization);
+            _core.Localization.RegisterNewControl(btnImportLocalization);
+            _core.Localization.RegisterNewControl(btnExportLocalization);
             _core.Localization.RegisterNewControl(lblAvailableLanguage);
         }
 
         private void frmLanguageConfig_Load(object sender, EventArgs e)
         {
             var languages = _core.Localization.GetLanguages();
-            languages.ForEach(l => comboAvailableLangauges.Properties.Items.Add(l.LanguageTag));
+            languages.ForEach(l => comboAvailableLangauges.Properties.Items.Add(l));
 
             comboAvailableLangauges.Text = _core.Localization.CurrentLocalization;
         }
@@ -32,6 +34,8 @@ namespace LibraryManagement
             {
                 _core.Localization.SetLocalization(comboAvailableLangauges.Text);
                 _core.Localization.ApplyLocalization();
+                _core.LoggedUser.Configuration.Language = _core.Localization.CurrentLocalization;
+                _core.UserManagement.UpdateUser(_core.LoggedUser);
                 XtraMessageBox.Show("Localization set successfully!", "Notification", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
@@ -69,23 +73,24 @@ namespace LibraryManagement
             {
                 using (var sf = new SaveFileDialog())
                 {
-                    var language = _core.Localization.GetLanguages().Find(l => l.LanguageTag == comboAvailableLangauges.Text);
-                    sf.FileName = language.LanguageTag;
+                    sf.FileName = comboAvailableLangauges.Text;
                     sf.Filter = "Serialzied Object (*.json)|*.json";
                     sf.DefaultExt = ".json";
                     sf.AddExtension = true;
-                    sf.ShowDialog();
 
-                    _core.Localization.Export(language, sf.FileName);
+                    if (sf.ShowDialog() == DialogResult.OK)
+                    {
+                        _core.Localization.Export(sf.FileName, comboAvailableLangauges.Text);
+                        XtraMessageBox.Show("Localization was exported successfully!", "Notification", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+
                 }
 
-                XtraMessageBox.Show("Localization was exported successfully!", "Notification", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
                 XtraMessageBox.Show("Something went wrong!\n" + ex.Message, "Notification", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            
         }
     }
 }

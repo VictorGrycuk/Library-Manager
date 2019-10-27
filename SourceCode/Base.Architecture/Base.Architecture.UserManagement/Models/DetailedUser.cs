@@ -31,7 +31,8 @@ namespace Base.Architecture.UserManagement.Models
                 Name = detailedUser.Name,
                 LastName = detailedUser.LastName,
                 DateCreated = detailedUser.DateCreated,
-                LastAccessed = detailedUser.LastAccessed
+                LastAccessed = detailedUser.LastAccessed,
+                Configuration = detailedUser.Configuration
             };
         }
     }

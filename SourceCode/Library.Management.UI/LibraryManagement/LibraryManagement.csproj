@@ -37,11 +37,9 @@
     <StartupObject>LibraryManagement.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Base.Architecture.Multilanguage, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\LibraryManagementCore\Base.Architecture.Multilanguage\bin\Debug\Base.Architecture.Multilanguage.dll</HintPath>
+    <Reference Include="Base.Architecture.UserManagement">
+      <HintPath>..\..\Base.Architecture\Base.Architecture.UserManagement\bin\Debug\Base.Architecture.UserManagement.dll</HintPath>
     </Reference>
-    <Reference Include="Base.Architecture.UserManagement, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" />
     <Reference Include="DevExpress.Data.v15.2, Version=15.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.Printing.v15.2.Core, Version=15.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.Sparkline.v15.2.Core, Version=15.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
@@ -55,7 +53,7 @@
     <Reference Include="DevExpress.XtraVerticalGrid.v15.2, Version=15.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="LibraryManagementCore, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\LibraryManagementCore\LibraryManagementCore\bin\Debug\LibraryManagementCore.dll</HintPath>
+      <HintPath>..\..\Library.Management.Core\Library.Management.Core\bin\Debug\LibraryManagementCore.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -82,12 +80,31 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="frmAddNewBook.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmAddNewBook.Designer.cs">
+      <DependentUpon>frmAddNewBook.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmEditAuthor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmEditAuthor.Designer.cs">
+      <DependentUpon>frmEditAuthor.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmLanguageConfig.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="frmLanguageConfig.Designer.cs">
       <DependentUpon>frmLanguageConfig.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmUserForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmUserForm.Designer.cs">
+      <DependentUpon>frmUserForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Helpers.cs" />
     <Compile Include="MainMenu.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -108,11 +125,20 @@
     <Compile Include="Splash.Designer.cs">
       <DependentUpon>Splash.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="frmAddNewBook.resx">
+      <DependentUpon>frmAddNewBook.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmEditAuthor.resx">
+      <DependentUpon>frmEditAuthor.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmLanguageConfig.resx">
       <DependentUpon>frmLanguageConfig.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmLogIn.resx">
       <DependentUpon>frmLogIn.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmUserForm.resx">
+      <DependentUpon>frmUserForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainMenu.resx">
       <DependentUpon>MainMenu.cs</DependentUpon>

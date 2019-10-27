@@ -58,7 +58,8 @@ namespace Base.Architecture.UserManagement
                 Username = user.Username,
                 Name = user.Name,
                 LastName = user.LastName,
-                DateCreated = DateTime.Now
+                DateCreated = DateTime.Now,
+                Configuration = new UserConfiguration()
             };
 
             PasswordValidationHelper.ValidatePassword(password);
@@ -84,6 +85,7 @@ namespace Base.Architecture.UserManagement
             detailedUser.Username = user.Username;
             detailedUser.Name = user.Name;
             detailedUser.LastName = user.LastName;
+            detailedUser.Configuration = user.Configuration;
 
             _db.Update(detailedUser);
         }
@@ -105,6 +107,7 @@ namespace Base.Architecture.UserManagement
             {
                 Username = "admin",
                 DateCreated = DateTime.Now,
+                Configuration = new UserConfiguration()
             };
 
             admin.SetPassword("admin");

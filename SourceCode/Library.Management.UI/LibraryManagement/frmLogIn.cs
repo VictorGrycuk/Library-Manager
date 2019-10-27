@@ -1,22 +1,40 @@
 ﻿using System;
+using System.Security;
 using System.Windows.Forms;
 using DevExpress.XtraEditors;
-using LibraryManagementCore;
-using System.IO;
 using DevExpress.XtraEditors.DXErrorProvider;
+using LibraryManagementCore;
 
 namespace LibraryManagement
 {
     public partial class frmLogIn : XtraForm
     {
-        private readonly LibraryCore _library;
+        private readonly Core _library;
         public frmLogIn()
         {
             InitializeComponent();
-            _library = new LibraryCore(Path.Combine(Application.StartupPath, "database.db"));
-            _library.Localization.SetLocalization("es-ar");
-            _library.Localization.RegisterNewControl(btnLogIn);
-            _library.Localization.ApplyLocalization();
+            try
+            {
+                // We try to load the local configuration
+                var localConfig = Helpers.LoadLocalConfiguration();
+                if (localConfig == null)
+                {
+                    Environment.Exit(-1);
+                }
+
+                _library = new Core(localConfig);
+                _library.Localization.RegisterNewControl(btnLogIn);
+                _library.Localization.ApplyLocalization();
+            }
+            catch (SecurityException exception)
+            {
+                XtraMessageBox.Show("The database checksum does not match the checksum stored.\nThe database information may be compromised.\n\nThe program will now exit.", exception.Message, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Environment.Exit(0);
+            }
+            catch (Exception exception)
+            {
+                XtraMessageBox.Show("Something went wrong:\n" + exception.Message);
+            }
         }
 
         private void btnLogIn_Click(object sender, EventArgs e)
@@ -27,9 +45,14 @@ namespace LibraryManagement
                 CheckControls(txtPassword);
 
                 _library.LogIn(txtUserName.Text, txtPassword.Text);
-                var mainMenu = new MainMenu(_library);
-                Hide();
-                mainMenu.Show();
+
+                using (var mainMenu = new MainMenu(_library))
+                {
+                    Hide();
+                    mainMenu.ShowDialog();
+                }
+
+                Show();
             }
             catch (ArgumentException exception)
             {

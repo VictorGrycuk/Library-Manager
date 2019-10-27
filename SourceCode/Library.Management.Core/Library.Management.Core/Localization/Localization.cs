@@ -58,14 +58,14 @@ namespace LibraryManagementCore.Localization
             _languageManager.Import(filePath);
         }
 
-        public void Export(Language language, string filePath)
+        public void Export(string filePath, string languageCode)
         {
-            _languageManager.Export(filePath, language);
+            _languageManager.Export(filePath, _languageManager.Find(languageCode));
         }
 
-        public List<Language> GetLanguages()
+        public List<string> GetLanguages()
         {
-            return _languageManager.GetAll().ToList();
+            return _languageManager.GetAll().ToList().Select(l => l.LanguageTag).ToList();
         }
 
         public void ApplyLocalization()

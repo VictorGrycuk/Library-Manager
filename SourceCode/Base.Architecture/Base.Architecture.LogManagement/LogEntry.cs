@@ -12,7 +12,7 @@ namespace Base.Architecture.LogManagement
 
         public LogEntry()
         {
-
+            DateTime = DateTime.Now;
         }
 
         public LogEntry(string message)

@@ -12,7 +12,14 @@ namespace Base.Architecture.LogManagement
         {
             try
             {
-                _loggers.Add(logType, dbManager);
+                if (!_loggers.ContainsKey(logType))
+                {
+                    _loggers.Add(logType, dbManager);
+                }
+                else
+                {
+                    _loggers[logType] = dbManager;
+                }
             }
             catch (Exception ex)
             {

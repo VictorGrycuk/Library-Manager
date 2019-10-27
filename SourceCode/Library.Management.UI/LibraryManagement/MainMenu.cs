@@ -1,33 +1,40 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
+using System.Windows.Forms;
 using DevExpress.Data;
 using DevExpress.XtraBars;
-using DevExpress.XtraBars.Docking;
 using LibraryManagementCore;
-using LibraryManagementCore.BookManagement.Models;
+using DevExpress.XtraEditors;
 
 namespace LibraryManagement
 {
     public partial class MainMenu : DevExpress.XtraBars.Ribbon.RibbonForm
     {
-        private readonly LibraryCore _core;
-        private Book _book;
+        private readonly Core _core;
 
-        public MainMenu(LibraryCore libraryCore)
+        public MainMenu(Core libraryCore)
         {
             _core = libraryCore;
 
             InitializeComponent();
 
             // Localization Configuration
+            if (_core.LoggedUser.Configuration?.Language != null)
+            {
+                _core.Localization.SetLocalization(_core.Localization.CurrentLocalization);
+            }
+
             _core.Localization.RegisterNewControl(btnAddNewBook);
             _core.Localization.RegisterNewControl(btnBookCollection);
             _core.Localization.RegisterNewControl(pageBookManagement);
             _core.Localization.RegisterNewControl(lblLoggedAs);
-            _core.Localization.RegisterNewControl(layoutBookTitle);
             _core.Localization.ApplyLocalization();
 
             lblLoggedAs.Caption = lblLoggedAs.Caption.Replace("{0}", _core.LoggedUser.Username);
+
+            // We get the system skin
+            lookAndFeel.LookAndFeel.SetSkinStyle(_core.LoggedUser.Configuration?.Theme);
 
             // Add the custom column 'Authors'
             gridBookTable.DataSource = _core.BookManager.GetAll();
@@ -38,38 +45,18 @@ namespace LibraryManagement
 
         private void btnAddNewBook_ItemClick(object sender, ItemClickEventArgs e)
         {
-            dockAddNewBook.Visibility = DockVisibility.Visible;
-        }
-
-        private void txtISBN_Properties_ButtonClick(object sender, DevExpress.XtraEditors.Controls.ButtonPressedEventArgs e)
-        {
-            _book = _core.BookManager.GetBookFromApi(txtISBN.Text);
-            txtTitle.Text = _book.Title;
-            listAuthors.Items.AddRange(_book.Authors.Select(x => x.Name).ToArray());
-            txtPublisher.Text = _book.Publisher;
-            txtPageCount.Text = _book.PageCount.ToString();
-            txtRating.Text = _book.AverageRating.ToString();
-            txtMaturity.Text = _book.MaturityRating;
-            txtLanguage.Text = _book.Language;
-            txtDescription.Text = _book.Description;
-        }
-
-        private void btnSave_Click(object sender, EventArgs e)
-        {
-            _core.BookManager.AddToCollection(_book);
-        }
-
-        private void btnSearchBook_ItemClick(object sender, ItemClickEventArgs e)
-        {
-            dockBookSearch.Visible = true;
+            using (var frm = new frmAddNewBook(_core))
+            {
+                frm.ShowDialog();
+            }
         }
 
         private void gridView1_CustomUnboundColumnData(object sender, DevExpress.XtraGrid.Views.Base.CustomColumnDataEventArgs e)
         {
             if (e.Column.FieldName != "Authors" || !e.IsGetData) return;
             var view = sender as DevExpress.XtraGrid.Views.Grid.GridView;
-            var id = (Guid)view?.GetListSourceRowCellValue(e.ListSourceRowIndex, "ID");
-            var author = _core.BookManager.GetAll().First(x => x.ID == id);
+            var id = (Guid)view?.GetListSourceRowCellValue(e.ListSourceRowIndex, "Id");
+            var author = _core.BookManager.GetAll().First(x => x.Id == id);
             var names = author.Authors.Select(x => x.Name).ToArray();
             e.Value = string.Join(", ", names);
         }
@@ -84,6 +71,54 @@ namespace LibraryManagement
             {
                 frm.ShowDialog();
             }
+        }
+
+        private void btnAddNewUser_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            using (var frm = new frmUserForm(_core))
+            {
+                frm.ShowDialog();
+            }
+        }
+
+        private void skinRibbonGallery_GalleryItemClick(object sender, DevExpress.XtraBars.Ribbon.GalleryItemClickEventArgs e)
+        {
+            
+        }
+
+        private void skinRibbonGallery_Gallery_ItemClick(object sender, DevExpress.XtraBars.Ribbon.GalleryItemClickEventArgs e)
+        {
+            _core.LoggedUser.Configuration.Theme = e.Item.Tag.ToString();
+            _core.UserManagement.UpdateUser(_core.LoggedUser);
+        }
+
+        private void btnExportDB_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            try
+            {
+                using (var sf = new SaveFileDialog())
+                {
+                    sf.FileName = DateTime.Now.ToString("yyyyMMdd-HHmmss");
+                    sf.Filter = "Database Object (*.db)|*.db";
+                    sf.DefaultExt = ".json";
+                    sf.AddExtension = true;
+
+                    if (sf.ShowDialog() == DialogResult.OK)
+                    {
+                        File.Copy(Helpers.LoadLocalConfiguration().Database, sf.FileName);
+                        XtraMessageBox.Show("The database was exported successfully!", "Notification", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                XtraMessageBox.Show("Something went wrong!\n" + ex.Message, "Notification", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void MainMenu_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            _core.LogOut();
         }
     }
 }

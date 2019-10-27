@@ -16,5 +16,6 @@ namespace LibraryManagementCore.BookManagement.Models
         public float AverageRating { get; set; }
         public string MaturityRating { get; set; }
         public string Language { get; set; }
+        public byte[] Cover { get; set; }
     }
 }

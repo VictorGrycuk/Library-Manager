@@ -14,6 +14,19 @@ namespace Base.Architecture.LocalizationManagement
         public LocalizationManager(DBManager dbManager)
         {
             _db = dbManager.NewTableConnection<Language>();
+
+            // We add a default localization if there is nothing
+            if (!_db.GetAll().Any())
+            {
+                Add(GetDefaultLanguage());
+            }
+        }
+
+        private static Language GetDefaultLanguage()
+        {
+            var serializedLanguage = System.Text.Encoding.Default.GetString(Properties.Resources.DefaultLocalization);
+
+            return JsonConvert.DeserializeObject<Language>(serializedLanguage);
         }
 
         public void Add(Language language)

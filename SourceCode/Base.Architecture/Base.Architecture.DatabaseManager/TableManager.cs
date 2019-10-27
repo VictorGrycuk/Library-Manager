@@ -26,7 +26,7 @@ namespace Base.Architecture.DatabaseManager
         public void Delete(TObjectType objectType)
         {
             var value = typeof(TObjectType).GetProperty("Id")?.GetValue(objectType)
-                        ?? throw new ArgumentException($"Object { objectType.GetType() } is missing property 'ID'");
+                        ?? throw new ArgumentException($"Object { objectType.GetType() } is missing property 'Id'");
 
             _db.Delete((Guid)value);
         }

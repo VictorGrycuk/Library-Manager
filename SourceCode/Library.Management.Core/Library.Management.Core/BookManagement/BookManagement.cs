@@ -21,6 +21,9 @@ namespace LibraryManagementCore.BookManagement
         public Book GetBookFromApi(string isbn)
         {
             var googleBook = GoogleApi.FindBook(isbn);
+            if (googleBook == null) throw new Exception("Book not found or ISBN not recognized");
+
+
             var book = Mapper.ConvertModel<GoogleBookModel, Book>(googleBook);
 
             foreach (var author in googleBook.authors)
@@ -107,6 +110,11 @@ namespace LibraryManagementCore.BookManagement
             }
 
             return books;
+        }
+
+        public List<Author> GetAllAuthors()
+        {
+            return _authorCollection.GetAll().ToList();
         }
 
         private BookDB GetDbModel(Book book)
