@@ -14,7 +14,9 @@ namespace LibraryManagement
             _core = core;
             InitializeComponent();
 
-            _core.Localization.RegisterNewControl(btnApplyLanguage);
+            _core.Localization.RegisterNewControl(btnApplyLocalization);
+            _core.Localization.RegisterNewControl(btnImportLocalization);
+            _core.Localization.RegisterNewControl(btnExportLocalization);
             _core.Localization.RegisterNewControl(lblAvailableLanguage);
         }
 

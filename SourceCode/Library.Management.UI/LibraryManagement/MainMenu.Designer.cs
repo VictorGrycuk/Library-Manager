@@ -37,6 +37,8 @@
             this.btnLanguageConfiguration = new DevExpress.XtraBars.BarButtonItem();
             this.btnAddNewUser = new DevExpress.XtraBars.BarButtonItem();
             this.skinRibbonGallery = new DevExpress.XtraBars.SkinRibbonGalleryBarItem();
+            this.btnExportDB = new DevExpress.XtraBars.BarButtonItem();
+            this.lblLoggedAs = new DevExpress.XtraBars.BarStaticItem();
             this.ribbonMainMenu = new DevExpress.XtraBars.Ribbon.RibbonPage();
             this.pageBookManagement = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.pageMembersManagement = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
@@ -44,7 +46,7 @@
             this.ribbonConfiguration = new DevExpress.XtraBars.Ribbon.RibbonPage();
             this.pageUserManagement = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.pageDatabaseManagement = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
-            this.pageLocalization = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
+            this.pageCustomization = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.ribbonStatusBar = new DevExpress.XtraBars.Ribbon.RibbonStatusBar();
             this.dockManager = new DevExpress.XtraBars.Docking.DockManager(this.components);
             this.dockBookSearch = new DevExpress.XtraBars.Docking.DockPanel();
@@ -53,8 +55,6 @@
             this.gridView1 = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.lookAndFeel = new DevExpress.LookAndFeel.DefaultLookAndFeel(this.components);
             this.barButtonItem1 = new DevExpress.XtraBars.BarButtonItem();
-            this.btnExportDB = new DevExpress.XtraBars.BarButtonItem();
-            this.lblLoggedAs = new DevExpress.XtraBars.BarStaticItem();
             ((System.ComponentModel.ISupportInitialize)(this.ribbon)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dockManager)).BeginInit();
             this.dockBookSearch.SuspendLayout();
@@ -131,6 +131,23 @@
             this.skinRibbonGallery.Name = "skinRibbonGallery";
             this.skinRibbonGallery.GalleryItemClick += new DevExpress.XtraBars.Ribbon.GalleryItemClickEventHandler(this.skinRibbonGallery_GalleryItemClick);
             // 
+            // btnExportDB
+            // 
+            this.btnExportDB.Caption = "Export Database";
+            this.btnExportDB.Glyph = ((System.Drawing.Image)(resources.GetObject("btnExportDB.Glyph")));
+            this.btnExportDB.Id = 10;
+            this.btnExportDB.LargeGlyph = ((System.Drawing.Image)(resources.GetObject("btnExportDB.LargeGlyph")));
+            this.btnExportDB.Name = "btnExportDB";
+            this.btnExportDB.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.btnExportDB_ItemClick);
+            // 
+            // lblLoggedAs
+            // 
+            this.lblLoggedAs.AllowHtmlText = DevExpress.Utils.DefaultBoolean.True;
+            this.lblLoggedAs.Caption = "barStaticItem1";
+            this.lblLoggedAs.Id = 11;
+            this.lblLoggedAs.Name = "lblLoggedAs";
+            this.lblLoggedAs.TextAlignment = System.Drawing.StringAlignment.Near;
+            // 
             // ribbonMainMenu
             // 
             this.ribbonMainMenu.Groups.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPageGroup[] {
@@ -162,7 +179,7 @@
             this.ribbonConfiguration.Groups.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPageGroup[] {
             this.pageUserManagement,
             this.pageDatabaseManagement,
-            this.pageLocalization});
+            this.pageCustomization});
             this.ribbonConfiguration.Name = "ribbonConfiguration";
             this.ribbonConfiguration.Text = "Configuration";
             // 
@@ -178,12 +195,12 @@
             this.pageDatabaseManagement.Name = "pageDatabaseManagement";
             this.pageDatabaseManagement.Text = "Database Management";
             // 
-            // pageLocalization
+            // pageCustomization
             // 
-            this.pageLocalization.ItemLinks.Add(this.btnLanguageConfiguration);
-            this.pageLocalization.ItemLinks.Add(this.skinRibbonGallery);
-            this.pageLocalization.Name = "pageLocalization";
-            this.pageLocalization.Text = "Customization";
+            this.pageCustomization.ItemLinks.Add(this.btnLanguageConfiguration);
+            this.pageCustomization.ItemLinks.Add(this.skinRibbonGallery);
+            this.pageCustomization.Name = "pageCustomization";
+            this.pageCustomization.Text = "Customization";
             // 
             // ribbonStatusBar
             // 
@@ -256,22 +273,6 @@
             this.barButtonItem1.Id = -1;
             this.barButtonItem1.Name = "barButtonItem1";
             // 
-            // btnExportDB
-            // 
-            this.btnExportDB.Caption = "Export Database";
-            this.btnExportDB.Glyph = ((System.Drawing.Image)(resources.GetObject("btnExportDB.Glyph")));
-            this.btnExportDB.Id = 10;
-            this.btnExportDB.LargeGlyph = ((System.Drawing.Image)(resources.GetObject("btnExportDB.LargeGlyph")));
-            this.btnExportDB.Name = "btnExportDB";
-            this.btnExportDB.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.btnExportDB_ItemClick);
-            // 
-            // lblLoggedAs
-            // 
-            this.lblLoggedAs.Caption = "barStaticItem1";
-            this.lblLoggedAs.Id = 11;
-            this.lblLoggedAs.Name = "lblLoggedAs";
-            this.lblLoggedAs.TextAlignment = System.Drawing.StringAlignment.Near;
-            // 
             // MainMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -284,6 +285,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.StatusBar = this.ribbonStatusBar;
             this.Text = "Main Menu";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainMenu_FormClosed);
             this.Load += new System.EventHandler(this.MainMenu_Load);
             ((System.ComponentModel.ISupportInitialize)(this.ribbon)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dockManager)).EndInit();
@@ -311,7 +313,7 @@
         private DevExpress.XtraBars.Docking.DockPanel dockBookSearch;
         private DevExpress.XtraBars.Docking.ControlContainer controlContainer1;
         private DevExpress.XtraBars.BarButtonItem btnLanguageConfiguration;
-        private DevExpress.XtraBars.Ribbon.RibbonPageGroup pageLocalization;
+        private DevExpress.XtraBars.Ribbon.RibbonPageGroup pageCustomization;
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup pageMembersManagement;
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup pageReservationManagement;
         private DevExpress.XtraBars.BarButtonItem btnAddNewUser;

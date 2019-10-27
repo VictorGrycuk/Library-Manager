@@ -46,23 +46,23 @@
             this.layoutControlGroup1 = new DevExpress.XtraLayout.LayoutControlGroup();
             this.layoutBookTitle = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutISBN = new DevExpress.XtraLayout.LayoutControlItem();
-            this.layoutControlItem1 = new DevExpress.XtraLayout.LayoutControlItem();
-            this.layoutControlItem4 = new DevExpress.XtraLayout.LayoutControlItem();
-            this.layoutControlItem5 = new DevExpress.XtraLayout.LayoutControlItem();
-            this.layoutControlItem6 = new DevExpress.XtraLayout.LayoutControlItem();
-            this.layoutControlItem7 = new DevExpress.XtraLayout.LayoutControlItem();
-            this.layoutControlItem8 = new DevExpress.XtraLayout.LayoutControlItem();
-            this.Description = new DevExpress.XtraLayout.LayoutControlItem();
+            this.lblAuthors = new DevExpress.XtraLayout.LayoutControlItem();
+            this.lblPublisher = new DevExpress.XtraLayout.LayoutControlItem();
+            this.lblPageCount = new DevExpress.XtraLayout.LayoutControlItem();
+            this.lblRating = new DevExpress.XtraLayout.LayoutControlItem();
+            this.lblMaturity = new DevExpress.XtraLayout.LayoutControlItem();
+            this.lblLanguage = new DevExpress.XtraLayout.LayoutControlItem();
+            this.lblDescription = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlItem2 = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlItem3 = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlItem9 = new DevExpress.XtraLayout.LayoutControlItem();
-            this.layoutControlItem10 = new DevExpress.XtraLayout.LayoutControlItem();
+            this.lblPublishedDate = new DevExpress.XtraLayout.LayoutControlItem();
             this.pictureCover = new System.Windows.Forms.PictureBox();
             this.tableAddNewBook = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.btnReadFromCamera = new DevExpress.XtraEditors.SimpleButton();
-            this.btnSaveNewBook = new DevExpress.XtraEditors.SimpleButton();
-            this.btnClearNewBookFields = new DevExpress.XtraEditors.SimpleButton();
+            this.btnSave = new DevExpress.XtraEditors.SimpleButton();
+            this.btnClear = new DevExpress.XtraEditors.SimpleButton();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControl1)).BeginInit();
             this.layoutControl1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.datePublishedDate.Properties.CalendarTimeProperties)).BeginInit();
@@ -79,17 +79,17 @@
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlGroup1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutBookTitle)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutISBN)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem4)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem5)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem6)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem7)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem8)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Description)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblAuthors)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblPublisher)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblPageCount)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblRating)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblMaturity)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblLanguage)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblDescription)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem9)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem10)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblPublishedDate)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureCover)).BeginInit();
             this.tableAddNewBook.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
@@ -254,17 +254,17 @@
             this.layoutControlGroup1.Items.AddRange(new DevExpress.XtraLayout.BaseLayoutItem[] {
             this.layoutBookTitle,
             this.layoutISBN,
-            this.layoutControlItem1,
-            this.layoutControlItem4,
-            this.layoutControlItem5,
-            this.layoutControlItem6,
-            this.layoutControlItem7,
-            this.layoutControlItem8,
-            this.Description,
+            this.lblAuthors,
+            this.lblPublisher,
+            this.lblPageCount,
+            this.lblRating,
+            this.lblMaturity,
+            this.lblLanguage,
+            this.lblDescription,
             this.layoutControlItem2,
             this.layoutControlItem3,
             this.layoutControlItem9,
-            this.layoutControlItem10});
+            this.lblPublishedDate});
             this.layoutControlGroup1.Location = new System.Drawing.Point(0, 0);
             this.layoutControlGroup1.Name = "Root";
             this.layoutControlGroup1.Padding = new DevExpress.XtraLayout.Utils.Padding(0, 0, 0, 0);
@@ -289,71 +289,71 @@
             this.layoutISBN.Text = "ISBN";
             this.layoutISBN.TextSize = new System.Drawing.Size(71, 13);
             // 
-            // layoutControlItem1
+            // lblAuthors
             // 
-            this.layoutControlItem1.Control = this.listAuthors;
-            this.layoutControlItem1.Location = new System.Drawing.Point(0, 48);
-            this.layoutControlItem1.MinSize = new System.Drawing.Size(113, 4);
-            this.layoutControlItem1.Name = "layoutControlItem1";
-            this.layoutControlItem1.Size = new System.Drawing.Size(260, 78);
-            this.layoutControlItem1.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom;
-            this.layoutControlItem1.Text = "Author/s";
-            this.layoutControlItem1.TextSize = new System.Drawing.Size(71, 13);
+            this.lblAuthors.Control = this.listAuthors;
+            this.lblAuthors.Location = new System.Drawing.Point(0, 48);
+            this.lblAuthors.MinSize = new System.Drawing.Size(113, 4);
+            this.lblAuthors.Name = "lblAuthors";
+            this.lblAuthors.Size = new System.Drawing.Size(260, 78);
+            this.lblAuthors.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom;
+            this.lblAuthors.Text = "Author/s";
+            this.lblAuthors.TextSize = new System.Drawing.Size(71, 13);
             // 
-            // layoutControlItem4
+            // lblPublisher
             // 
-            this.layoutControlItem4.Control = this.txtPublisher;
-            this.layoutControlItem4.Location = new System.Drawing.Point(0, 126);
-            this.layoutControlItem4.Name = "layoutControlItem4";
-            this.layoutControlItem4.Size = new System.Drawing.Size(179, 24);
-            this.layoutControlItem4.Text = "Publisher";
-            this.layoutControlItem4.TextSize = new System.Drawing.Size(71, 13);
+            this.lblPublisher.Control = this.txtPublisher;
+            this.lblPublisher.Location = new System.Drawing.Point(0, 126);
+            this.lblPublisher.Name = "lblPublisher";
+            this.lblPublisher.Size = new System.Drawing.Size(179, 24);
+            this.lblPublisher.Text = "Publisher";
+            this.lblPublisher.TextSize = new System.Drawing.Size(71, 13);
             // 
-            // layoutControlItem5
+            // lblPageCount
             // 
-            this.layoutControlItem5.Control = this.txtPageCount;
-            this.layoutControlItem5.Location = new System.Drawing.Point(0, 150);
-            this.layoutControlItem5.Name = "layoutControlItem5";
-            this.layoutControlItem5.Size = new System.Drawing.Size(179, 24);
-            this.layoutControlItem5.Text = "Page Count";
-            this.layoutControlItem5.TextSize = new System.Drawing.Size(71, 13);
+            this.lblPageCount.Control = this.txtPageCount;
+            this.lblPageCount.Location = new System.Drawing.Point(0, 150);
+            this.lblPageCount.Name = "lblPageCount";
+            this.lblPageCount.Size = new System.Drawing.Size(179, 24);
+            this.lblPageCount.Text = "Page Count";
+            this.lblPageCount.TextSize = new System.Drawing.Size(71, 13);
             // 
-            // layoutControlItem6
+            // lblRating
             // 
-            this.layoutControlItem6.Control = this.txtRating;
-            this.layoutControlItem6.Location = new System.Drawing.Point(179, 150);
-            this.layoutControlItem6.Name = "layoutControlItem6";
-            this.layoutControlItem6.Size = new System.Drawing.Size(180, 24);
-            this.layoutControlItem6.Text = "Rating";
-            this.layoutControlItem6.TextSize = new System.Drawing.Size(71, 13);
+            this.lblRating.Control = this.txtRating;
+            this.lblRating.Location = new System.Drawing.Point(179, 150);
+            this.lblRating.Name = "lblRating";
+            this.lblRating.Size = new System.Drawing.Size(180, 24);
+            this.lblRating.Text = "Rating";
+            this.lblRating.TextSize = new System.Drawing.Size(71, 13);
             // 
-            // layoutControlItem7
+            // lblMaturity
             // 
-            this.layoutControlItem7.Control = this.txtMaturity;
-            this.layoutControlItem7.Location = new System.Drawing.Point(0, 174);
-            this.layoutControlItem7.Name = "layoutControlItem7";
-            this.layoutControlItem7.Size = new System.Drawing.Size(179, 24);
-            this.layoutControlItem7.Text = "Maturity";
-            this.layoutControlItem7.TextSize = new System.Drawing.Size(71, 13);
+            this.lblMaturity.Control = this.txtMaturity;
+            this.lblMaturity.Location = new System.Drawing.Point(0, 174);
+            this.lblMaturity.Name = "lblMaturity";
+            this.lblMaturity.Size = new System.Drawing.Size(179, 24);
+            this.lblMaturity.Text = "Maturity";
+            this.lblMaturity.TextSize = new System.Drawing.Size(71, 13);
             // 
-            // layoutControlItem8
+            // lblLanguage
             // 
-            this.layoutControlItem8.Control = this.txtLanguage;
-            this.layoutControlItem8.Location = new System.Drawing.Point(179, 174);
-            this.layoutControlItem8.Name = "layoutControlItem8";
-            this.layoutControlItem8.Size = new System.Drawing.Size(180, 24);
-            this.layoutControlItem8.Text = "Language";
-            this.layoutControlItem8.TextSize = new System.Drawing.Size(71, 13);
+            this.lblLanguage.Control = this.txtLanguage;
+            this.lblLanguage.Location = new System.Drawing.Point(179, 174);
+            this.lblLanguage.Name = "lblLanguage";
+            this.lblLanguage.Size = new System.Drawing.Size(180, 24);
+            this.lblLanguage.Text = "Language";
+            this.lblLanguage.TextSize = new System.Drawing.Size(71, 13);
             // 
-            // Description
+            // lblDescription
             // 
-            this.Description.Control = this.txtDescription;
-            this.Description.Location = new System.Drawing.Point(0, 198);
-            this.Description.MinSize = new System.Drawing.Size(74, 20);
-            this.Description.Name = "Description";
-            this.Description.Size = new System.Drawing.Size(359, 282);
-            this.Description.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom;
-            this.Description.TextSize = new System.Drawing.Size(71, 13);
+            this.lblDescription.Control = this.txtDescription;
+            this.lblDescription.Location = new System.Drawing.Point(0, 198);
+            this.lblDescription.MinSize = new System.Drawing.Size(74, 20);
+            this.lblDescription.Name = "lblDescription";
+            this.lblDescription.Size = new System.Drawing.Size(359, 282);
+            this.lblDescription.SizeConstraintsType = DevExpress.XtraLayout.SizeConstraintsType.Custom;
+            this.lblDescription.TextSize = new System.Drawing.Size(71, 13);
             // 
             // layoutControlItem2
             // 
@@ -382,14 +382,14 @@
             this.layoutControlItem9.TextSize = new System.Drawing.Size(0, 0);
             this.layoutControlItem9.TextVisible = false;
             // 
-            // layoutControlItem10
+            // lblPublishedDate
             // 
-            this.layoutControlItem10.Control = this.datePublishedDate;
-            this.layoutControlItem10.Location = new System.Drawing.Point(179, 126);
-            this.layoutControlItem10.Name = "layoutControlItem10";
-            this.layoutControlItem10.Size = new System.Drawing.Size(180, 24);
-            this.layoutControlItem10.Text = "Published Date";
-            this.layoutControlItem10.TextSize = new System.Drawing.Size(71, 13);
+            this.lblPublishedDate.Control = this.datePublishedDate;
+            this.lblPublishedDate.Location = new System.Drawing.Point(179, 126);
+            this.lblPublishedDate.Name = "lblPublishedDate";
+            this.lblPublishedDate.Size = new System.Drawing.Size(180, 24);
+            this.lblPublishedDate.Text = "Published Date";
+            this.lblPublishedDate.TextSize = new System.Drawing.Size(71, 13);
             // 
             // pictureCover
             // 
@@ -427,8 +427,8 @@
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel1.Controls.Add(this.btnReadFromCamera, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.btnSaveNewBook, 2, 0);
-            this.tableLayoutPanel1.Controls.Add(this.btnClearNewBookFields, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this.btnSave, 2, 0);
+            this.tableLayoutPanel1.Controls.Add(this.btnClear, 1, 0);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 489);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -446,23 +446,23 @@
             this.btnReadFromCamera.TabIndex = 7;
             this.btnReadFromCamera.Text = "Read ISBN";
             // 
-            // btnSaveNewBook
+            // btnSave
             // 
-            this.btnSaveNewBook.Location = new System.Drawing.Point(281, 3);
-            this.btnSaveNewBook.Name = "btnSaveNewBook";
-            this.btnSaveNewBook.Size = new System.Drawing.Size(75, 23);
-            this.btnSaveNewBook.TabIndex = 5;
-            this.btnSaveNewBook.Text = "Save";
-            this.btnSaveNewBook.Click += new System.EventHandler(this.btnSaveNewBook_Click);
+            this.btnSave.Location = new System.Drawing.Point(281, 3);
+            this.btnSave.Name = "btnSave";
+            this.btnSave.Size = new System.Drawing.Size(75, 23);
+            this.btnSave.TabIndex = 5;
+            this.btnSave.Text = "Save";
+            this.btnSave.Click += new System.EventHandler(this.btnSaveNewBook_Click);
             // 
-            // btnClearNewBookFields
+            // btnClear
             // 
-            this.btnClearNewBookFields.Location = new System.Drawing.Point(200, 3);
-            this.btnClearNewBookFields.Name = "btnClearNewBookFields";
-            this.btnClearNewBookFields.Size = new System.Drawing.Size(75, 23);
-            this.btnClearNewBookFields.TabIndex = 6;
-            this.btnClearNewBookFields.Text = "Clear";
-            this.btnClearNewBookFields.Click += new System.EventHandler(this.btnClearNewBookFields_Click);
+            this.btnClear.Location = new System.Drawing.Point(200, 3);
+            this.btnClear.Name = "btnClear";
+            this.btnClear.Size = new System.Drawing.Size(75, 23);
+            this.btnClear.TabIndex = 6;
+            this.btnClear.Text = "Clear";
+            this.btnClear.Click += new System.EventHandler(this.btnClearNewBookFields_Click);
             // 
             // frmAddNewBook
             // 
@@ -490,17 +490,17 @@
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlGroup1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutBookTitle)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutISBN)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem4)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem5)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem6)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem7)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem8)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Description)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblAuthors)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblPublisher)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblPageCount)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblRating)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblMaturity)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblLanguage)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblDescription)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem9)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem10)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblPublishedDate)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureCover)).EndInit();
             this.tableAddNewBook.ResumeLayout(false);
             this.tableAddNewBook.PerformLayout();
@@ -527,23 +527,23 @@
         private DevExpress.XtraLayout.LayoutControlGroup layoutControlGroup1;
         private DevExpress.XtraLayout.LayoutControlItem layoutBookTitle;
         private DevExpress.XtraLayout.LayoutControlItem layoutISBN;
-        private DevExpress.XtraLayout.LayoutControlItem layoutControlItem1;
-        private DevExpress.XtraLayout.LayoutControlItem layoutControlItem4;
-        private DevExpress.XtraLayout.LayoutControlItem layoutControlItem5;
-        private DevExpress.XtraLayout.LayoutControlItem layoutControlItem6;
-        private DevExpress.XtraLayout.LayoutControlItem layoutControlItem7;
-        private DevExpress.XtraLayout.LayoutControlItem layoutControlItem8;
-        private DevExpress.XtraLayout.LayoutControlItem Description;
+        private DevExpress.XtraLayout.LayoutControlItem lblAuthors;
+        private DevExpress.XtraLayout.LayoutControlItem lblPublisher;
+        private DevExpress.XtraLayout.LayoutControlItem lblPageCount;
+        private DevExpress.XtraLayout.LayoutControlItem lblRating;
+        private DevExpress.XtraLayout.LayoutControlItem lblMaturity;
+        private DevExpress.XtraLayout.LayoutControlItem lblLanguage;
+        private DevExpress.XtraLayout.LayoutControlItem lblDescription;
         private DevExpress.XtraLayout.LayoutControlItem layoutControlItem2;
         private DevExpress.XtraLayout.LayoutControlItem layoutControlItem3;
         private DevExpress.XtraLayout.LayoutControlItem layoutControlItem9;
         private System.Windows.Forms.PictureBox pictureCover;
         private System.Windows.Forms.TableLayoutPanel tableAddNewBook;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private DevExpress.XtraEditors.SimpleButton btnSaveNewBook;
-        private DevExpress.XtraEditors.SimpleButton btnClearNewBookFields;
+        private DevExpress.XtraEditors.SimpleButton btnSave;
+        private DevExpress.XtraEditors.SimpleButton btnClear;
         private DevExpress.XtraEditors.SimpleButton btnReadFromCamera;
         private DevExpress.XtraEditors.DateEdit datePublishedDate;
-        private DevExpress.XtraLayout.LayoutControlItem layoutControlItem10;
+        private DevExpress.XtraLayout.LayoutControlItem lblPublishedDate;
     }
 }

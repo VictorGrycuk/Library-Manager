@@ -37,11 +37,11 @@
             this.txtUsername = new DevExpress.XtraEditors.TextEdit();
             this.layoutControlGroupUser = new DevExpress.XtraLayout.LayoutControlGroup();
             this.layoutGroupSystemInformation = new DevExpress.XtraLayout.LayoutControlGroup();
-            this.layoutControlItem1 = new DevExpress.XtraLayout.LayoutControlItem();
-            this.layoutControlItem4 = new DevExpress.XtraLayout.LayoutControlItem();
+            this.lblUserName = new DevExpress.XtraLayout.LayoutControlItem();
+            this.lblPassword = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutGroupPersonalInformation = new DevExpress.XtraLayout.LayoutControlGroup();
-            this.layoutControlItem2 = new DevExpress.XtraLayout.LayoutControlItem();
-            this.layoutControlItem3 = new DevExpress.XtraLayout.LayoutControlItem();
+            this.lblName = new DevExpress.XtraLayout.LayoutControlItem();
+            this.lblLastName = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlItem5 = new DevExpress.XtraLayout.LayoutControlItem();
             this.layoutControlItem6 = new DevExpress.XtraLayout.LayoutControlItem();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlUser)).BeginInit();
@@ -52,11 +52,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.txtUsername.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlGroupUser)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutGroupSystemInformation)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem4)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblUserName)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblPassword)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutGroupPersonalInformation)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblName)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblLastName)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem5)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem6)).BeginInit();
             this.SuspendLayout();
@@ -147,58 +147,58 @@
             // layoutGroupSystemInformation
             // 
             this.layoutGroupSystemInformation.Items.AddRange(new DevExpress.XtraLayout.BaseLayoutItem[] {
-            this.layoutControlItem1,
-            this.layoutControlItem4});
+            this.lblUserName,
+            this.lblPassword});
             this.layoutGroupSystemInformation.Location = new System.Drawing.Point(0, 90);
             this.layoutGroupSystemInformation.Name = "layoutGroupSystemInformation";
             this.layoutGroupSystemInformation.Size = new System.Drawing.Size(252, 90);
             this.layoutGroupSystemInformation.Text = "System Information";
             // 
-            // layoutControlItem1
+            // lblUserName
             // 
-            this.layoutControlItem1.Control = this.txtUsername;
-            this.layoutControlItem1.Location = new System.Drawing.Point(0, 0);
-            this.layoutControlItem1.Name = "layoutControlItem1";
-            this.layoutControlItem1.Size = new System.Drawing.Size(228, 24);
-            this.layoutControlItem1.Text = "Username";
-            this.layoutControlItem1.TextSize = new System.Drawing.Size(50, 13);
+            this.lblUserName.Control = this.txtUsername;
+            this.lblUserName.Location = new System.Drawing.Point(0, 0);
+            this.lblUserName.Name = "lblUserName";
+            this.lblUserName.Size = new System.Drawing.Size(228, 24);
+            this.lblUserName.Text = "Username";
+            this.lblUserName.TextSize = new System.Drawing.Size(50, 13);
             // 
-            // layoutControlItem4
+            // lblPassword
             // 
-            this.layoutControlItem4.Control = this.txtPassword;
-            this.layoutControlItem4.Location = new System.Drawing.Point(0, 24);
-            this.layoutControlItem4.Name = "layoutControlItem4";
-            this.layoutControlItem4.Size = new System.Drawing.Size(228, 24);
-            this.layoutControlItem4.Text = "Password";
-            this.layoutControlItem4.TextSize = new System.Drawing.Size(50, 13);
+            this.lblPassword.Control = this.txtPassword;
+            this.lblPassword.Location = new System.Drawing.Point(0, 24);
+            this.lblPassword.Name = "lblPassword";
+            this.lblPassword.Size = new System.Drawing.Size(228, 24);
+            this.lblPassword.Text = "Password";
+            this.lblPassword.TextSize = new System.Drawing.Size(50, 13);
             // 
             // layoutGroupPersonalInformation
             // 
             this.layoutGroupPersonalInformation.Items.AddRange(new DevExpress.XtraLayout.BaseLayoutItem[] {
-            this.layoutControlItem2,
-            this.layoutControlItem3});
+            this.lblName,
+            this.lblLastName});
             this.layoutGroupPersonalInformation.Location = new System.Drawing.Point(0, 0);
             this.layoutGroupPersonalInformation.Name = "layoutGroupPersonalInformation";
             this.layoutGroupPersonalInformation.Size = new System.Drawing.Size(252, 90);
             this.layoutGroupPersonalInformation.Text = "Personal Information";
             // 
-            // layoutControlItem2
+            // lblName
             // 
-            this.layoutControlItem2.Control = this.txtName;
-            this.layoutControlItem2.Location = new System.Drawing.Point(0, 0);
-            this.layoutControlItem2.Name = "layoutControlItem2";
-            this.layoutControlItem2.Size = new System.Drawing.Size(228, 24);
-            this.layoutControlItem2.Text = "Name";
-            this.layoutControlItem2.TextSize = new System.Drawing.Size(50, 13);
+            this.lblName.Control = this.txtName;
+            this.lblName.Location = new System.Drawing.Point(0, 0);
+            this.lblName.Name = "lblName";
+            this.lblName.Size = new System.Drawing.Size(228, 24);
+            this.lblName.Text = "Name";
+            this.lblName.TextSize = new System.Drawing.Size(50, 13);
             // 
-            // layoutControlItem3
+            // lblLastName
             // 
-            this.layoutControlItem3.Control = this.txtLastName;
-            this.layoutControlItem3.Location = new System.Drawing.Point(0, 24);
-            this.layoutControlItem3.Name = "layoutControlItem3";
-            this.layoutControlItem3.Size = new System.Drawing.Size(228, 24);
-            this.layoutControlItem3.Text = "Last Name";
-            this.layoutControlItem3.TextSize = new System.Drawing.Size(50, 13);
+            this.lblLastName.Control = this.txtLastName;
+            this.lblLastName.Location = new System.Drawing.Point(0, 24);
+            this.lblLastName.Name = "lblLastName";
+            this.lblLastName.Size = new System.Drawing.Size(228, 24);
+            this.lblLastName.Text = "Last Name";
+            this.lblLastName.TextSize = new System.Drawing.Size(50, 13);
             // 
             // layoutControlItem5
             // 
@@ -237,11 +237,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.txtUsername.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlGroupUser)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutGroupSystemInformation)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem4)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblUserName)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblPassword)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutGroupPersonalInformation)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblName)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblLastName)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem5)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.layoutControlItem6)).EndInit();
             this.ResumeLayout(false);
@@ -255,12 +255,12 @@
         private DevExpress.XtraEditors.TextEdit txtLastName;
         private DevExpress.XtraEditors.TextEdit txtName;
         private DevExpress.XtraEditors.TextEdit txtUsername;
-        private DevExpress.XtraLayout.LayoutControlItem layoutControlItem1;
-        private DevExpress.XtraLayout.LayoutControlItem layoutControlItem2;
-        private DevExpress.XtraLayout.LayoutControlItem layoutControlItem3;
+        private DevExpress.XtraLayout.LayoutControlItem lblUserName;
+        private DevExpress.XtraLayout.LayoutControlItem lblName;
+        private DevExpress.XtraLayout.LayoutControlItem lblLastName;
         private DevExpress.XtraEditors.TextEdit txtPassword;
         private DevExpress.XtraLayout.LayoutControlGroup layoutGroupSystemInformation;
-        private DevExpress.XtraLayout.LayoutControlItem layoutControlItem4;
+        private DevExpress.XtraLayout.LayoutControlItem lblPassword;
         private DevExpress.XtraLayout.LayoutControlGroup layoutGroupPersonalInformation;
         private DevExpress.XtraEditors.SimpleButton btnSave;
         private DevExpress.XtraEditors.SimpleButton btnClear;

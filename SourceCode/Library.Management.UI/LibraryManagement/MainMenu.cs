@@ -115,5 +115,10 @@ namespace LibraryManagement
                 XtraMessageBox.Show("Something went wrong!\n" + ex.Message, "Notification", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        private void MainMenu_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            _core.LogOut();
+        }
     }
 }

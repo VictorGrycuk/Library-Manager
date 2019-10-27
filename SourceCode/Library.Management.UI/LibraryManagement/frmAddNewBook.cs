@@ -21,8 +21,8 @@ namespace LibraryManagement
             InitializeComponent();
 
             _core = core;
-            _core.Localization.RegisterNewControl(btnSaveNewBook);
-            _core.Localization.RegisterNewControl(btnClearNewBookFields);
+            _core.Localization.RegisterNewControl(btnSave);
+            _core.Localization.RegisterNewControl(btnClear);
             _core.Localization.ApplyLocalization();
 
             _defaultCover = pictureCover.Image;

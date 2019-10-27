@@ -31,7 +31,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmLanguageConfig));
             this.lblAvailableLanguage = new DevExpress.XtraEditors.LabelControl();
             this.comboAvailableLangauges = new DevExpress.XtraEditors.ComboBoxEdit();
-            this.btnApplyLanguage = new DevExpress.XtraEditors.SimpleButton();
+            this.btnApplyLocalization = new DevExpress.XtraEditors.SimpleButton();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.btnExportLocalization = new DevExpress.XtraEditors.SimpleButton();
             this.btnImportLocalization = new DevExpress.XtraEditors.SimpleButton();
@@ -57,16 +57,16 @@
             this.comboAvailableLangauges.Size = new System.Drawing.Size(108, 20);
             this.comboAvailableLangauges.TabIndex = 0;
             // 
-            // btnApplyLanguage
+            // btnApplyLocalization
             // 
-            this.btnApplyLanguage.Image = ((System.Drawing.Image)(resources.GetObject("btnApplyLanguage.Image")));
-            this.btnApplyLanguage.ImageLocation = DevExpress.XtraEditors.ImageLocation.TopCenter;
-            this.btnApplyLanguage.Location = new System.Drawing.Point(317, 12);
-            this.btnApplyLanguage.Name = "btnApplyLanguage";
-            this.btnApplyLanguage.Size = new System.Drawing.Size(96, 55);
-            this.btnApplyLanguage.TabIndex = 1;
-            this.btnApplyLanguage.Text = "Apply Language";
-            this.btnApplyLanguage.Click += new System.EventHandler(this.btnApplyLanguage_Click);
+            this.btnApplyLocalization.Image = ((System.Drawing.Image)(resources.GetObject("btnApplyLocalization.Image")));
+            this.btnApplyLocalization.ImageLocation = DevExpress.XtraEditors.ImageLocation.TopCenter;
+            this.btnApplyLocalization.Location = new System.Drawing.Point(317, 12);
+            this.btnApplyLocalization.Name = "btnApplyLocalization";
+            this.btnApplyLocalization.Size = new System.Drawing.Size(96, 55);
+            this.btnApplyLocalization.TabIndex = 1;
+            this.btnApplyLocalization.Text = "Apply Language";
+            this.btnApplyLocalization.Click += new System.EventHandler(this.btnApplyLanguage_Click);
             // 
             // tableLayoutPanel1
             // 
@@ -112,7 +112,7 @@
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.btnImportLocalization);
             this.Controls.Add(this.btnExportLocalization);
-            this.Controls.Add(this.btnApplyLanguage);
+            this.Controls.Add(this.btnApplyLocalization);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "frmLanguageConfig";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
@@ -129,7 +129,7 @@
 
         private DevExpress.XtraEditors.LabelControl lblAvailableLanguage;
         private DevExpress.XtraEditors.ComboBoxEdit comboAvailableLangauges;
-        private DevExpress.XtraEditors.SimpleButton btnApplyLanguage;
+        private DevExpress.XtraEditors.SimpleButton btnApplyLocalization;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private DevExpress.XtraEditors.SimpleButton btnExportLocalization;
         private DevExpress.XtraEditors.SimpleButton btnImportLocalization;

@@ -50,7 +50,7 @@ namespace LibraryManagement
         }
 
         private bool ValidateFields()
-        {
+        { 
             try
             {
                 Helpers.ValidateLayoutControls(layoutControlGroupUser);
@@ -61,9 +61,10 @@ namespace LibraryManagement
                     "Warning",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Hand);
+                return false;
             }
 
-            return false;
+            return true;
         }
 
         private void btnClear_Click(object sender, EventArgs e)
